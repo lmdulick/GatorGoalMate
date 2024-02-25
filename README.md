@@ -34,4 +34,20 @@ To Clone the Repository:
 ```shell
 git clone https://github.com/lmdulick/GatorGoalMate.git
 ```
+When you open the project in VS Code, the bottom bar looks like this:
+<img width="700" alt="image" src="https://github.com/lmdulick/GatorGoalMate/assets/116673406/f20afc30-cea6-4f9b-aeaa-ec0bd26d1c81">
+
+When you click on 'MasterBranch,' you can change the current branch to your own branch (ex. origin/Lauren, origin/Sophia, origin/Simar, origin/Roshan)
+
+This button will pull and push new commits from and to the current branch:
+<img width="30" alt="image" src="https://github.com/lmdulick/GatorGoalMate/assets/116673406/96e57f92-7b2d-48e5-b028-56c410032991">
+
+Additionally, you can manually push and pull to and from the repository with a comment in the System Command Prompt (cmd) using git with these commands:
+```shell
+git push origin branch_name -m "comment"
+```
+```shell
+git pull origin branch_name -m "comment"
+```
+*Replace branch_name with the desired branch (ex. MasterBranch, Lauren, Sophia, Simar, Roshan)
 
