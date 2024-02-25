@@ -3,13 +3,13 @@
 <img width="444" alt="image" src="https://github.com/lmdulick/GatorGoalMate/assets/116673406/13b53b2d-db9c-4c55-8337-8e8826a64157">
 
 # Team Name: Ctrl + Alt + Elite
-Lauren Dulick - Project Manager
+* Lauren Dulick - Project Manager
 
-Sophia Dadla - UX Designer
+* Sophia Dadla - UX Designer
 
-Simar Khetpal - Scrum Master
+* Simar Khetpal - Scrum Master
 
-Roshan Ahmed - Quality Assurance Engineer
+* Roshan Ahmed - Quality Assurance Engineer
 
 # Team Mission
 Problem Statement: Many UF students struggle to stay accountable and motivated in achieving their academic, personal, and fitness goals each semester. Without a supportive community and effective tools to track progress, students often find themselves falling short of their aspirations.
@@ -29,7 +29,7 @@ Presentation Link: https://youtu.be/Cqd6nSOu-go
 # Architectural Design
 <img width="763" alt="image" src="https://github.com/lmdulick/GatorGoalMate/assets/116673406/48c849c6-9d8a-4e0a-9ffc-72cee50f882b">
 
-# Instructions to Clone and Start Project
+# Instructions to Clone and Edit the Project
 To Clone the Repository:
 ```shell
 git clone https://github.com/lmdulick/GatorGoalMate.git
@@ -51,3 +51,22 @@ git pull origin branch_name -m "comment"
 ```
 *Replace branch_name with the desired branch (ex. MasterBranch, Lauren, Sophia, Simar, Roshan)
 
+# Frontend: 'client'
+
+To run the client (Frontend):
+```shell
+cd client
+```
+```shell
+npm start
+```
+
+# Backend: 'server'
+
+To run the server (Backend):
+```shell
+cd server
+```
+```shell
+npm run dev
+```
