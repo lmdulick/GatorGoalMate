@@ -5,6 +5,6 @@ Mission Statement: We want to create a supportive platform for students to set a
 - editing the Master Branch README
 
 # Tasks Currently Working On
-- creating a protoype of the frontend/backend folders and files
+- creating the framework for the frontend/React and backend/Express
 
 # Tasks To-Do
