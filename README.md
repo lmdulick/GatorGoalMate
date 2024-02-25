@@ -26,5 +26,8 @@ Unique Approach:
 
 Presentation Link: https://youtu.be/Cqd6nSOu-go
 
+# Architectural Design
+<img width="763" alt="image" src="https://github.com/lmdulick/GatorGoalMate/assets/116673406/48c849c6-9d8a-4e0a-9ffc-72cee50f882b">
+
 # Instructions to Clone and Start Project
 
