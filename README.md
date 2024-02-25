@@ -25,3 +25,6 @@ Unique Approach:
 4. Dopamine-Rich Social Media Atmosphere
 
 Presentation Link: https://youtu.be/Cqd6nSOu-go
+
+# Instructions to Clone and Start Project
+
