@@ -44,10 +44,20 @@ This button will pull and push new commits from and to the current branch:
 
 Additionally, you can manually push and pull to and from the repository with a comment in the System Command Prompt (cmd) using git with these commands:
 ```shell
-git push origin branch_name -m "comment"
+git push origin <branch_name> -m "comment"
 ```
 ```shell
-git pull origin branch_name -m "comment"
+git pull origin <branch_name> -m "comment"
+```
+To add an entire folder:
+```shell
+git checkout <branch_name>
+```
+```shell
+git add <folder_name>
+```
+```shell
+git commit -m "comment"
 ```
 *Replace branch_name with the desired branch (ex. MasterBranch, Lauren, Sophia, Simar, Roshan)
 
