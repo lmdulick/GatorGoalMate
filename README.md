@@ -59,6 +59,9 @@ git add <folder_name>
 ```shell
 git commit -m "comment"
 ```
+```shell
+git push
+```
 *Replace branch_name with the desired branch (ex. MasterBranch, Lauren, Sophia, Simar, Roshan)
 
 # Frontend: 'client'
