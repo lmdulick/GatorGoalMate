@@ -1,5 +1,9 @@
+var cors = require('cors')
+
 const express = require('express')
 const app = express()
+
+app.use(cors())
 
 app.get("/api", (req, res) => {
     res.json({"users": ["userOne", "userTwo", "userThree", "userFour"]})
