@@ -3,8 +3,12 @@ Mission Statement: We want to create a supportive platform for students to set a
 
 # Tasks Completed
 - editing the Master Branch README
-
-# Tasks Currently Working On
+- adding all Sprints to the Issues tab
+- creating and editing README in Issues tab
 - creating the framework for the frontend/React and backend/Express
 
+# Tasks Currently Working On
+-  Sprint 1: Account Creation and Login
+
 # Tasks To-Do
+- 
