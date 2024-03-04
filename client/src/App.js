@@ -118,7 +118,7 @@ function App() {
             {posts.map((post) => (
               <div key={post.id} className="post-container">
                 <p>
-                  <strong>{post.userName}</strong>: {post.content}
+                  <strong>{post.userName}</strong> {post.content}
                 </p>
                 <button onClick={() => handleToggleReplyForm(post.id)}>
                   Reply
@@ -143,12 +143,12 @@ function App() {
     {showAllReplies[post.id]
       ? post.replies.slice().reverse().map((reply, index) => (
           <p key={index} className="reply">
-            <strong>{reply.userName}</strong>: {reply.content}
+            <strong>{reply.userName}</strong> {reply.content}
           </p>
         ))
       : post.replies.slice().reverse().slice(0, 2).map((reply, index) => (
           <p key={index} className="reply">
-            <strong>{reply.userName}</strong>: {reply.content}
+            <strong>{reply.userName}</strong> {reply.content}
           </p>
         ))}
 
