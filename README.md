@@ -34,7 +34,13 @@ To Clone the Repository:
 ```shell
 git clone https://github.com/lmdulick/GatorGoalMate.git
 ```
-To install MongoDB:
+Necessary Installations:
+```shell
+npm install express
+```
+```shell
+npm install cors
+```
 ```shell
 npm install mongodb
 ```
