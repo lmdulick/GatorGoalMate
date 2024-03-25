@@ -42,7 +42,7 @@ npm install express
 npm install cors
 ```
 ```shell
-npm install mongodb
+npm install mongodb@4.1.0 --save
 ```
 When you open the project in VS Code, the bottom bar looks like this:
 <img width="700" alt="image" src="https://github.com/lmdulick/GatorGoalMate/assets/116673406/f20afc30-cea6-4f9b-aeaa-ec0bd26d1c81">
