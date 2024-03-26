@@ -76,7 +76,7 @@ app.get('/api/posts', (request, response) => {
 //   }
 // });
 
-// app.post('/api/posts/AddPosts', multer().none(), async (request, response) => {
+// app.post('/api/posts', multer().none(), async (request, response) => {
 //   const { userName, content } = request.body;
 
 //   // Connect to MongoDB
