@@ -7,8 +7,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const CONNECTION_STRING="mongodb+srv://lmd:SWE1!@mongodb.tzduiqh.mongodb.net/?retryWrites=true&w=majority&appName=MongoDB"
-const DATABASE_NAME="GGMDB";
+const CONNECTION_STRING="mongodb+srv://gatorgoalmate:SWE1!@clusterggm.yfnvpjv.mongodb.net/?retryWrites=true&w=majority&appName=ClusterGGM"
+const DATABASE_NAME="GGM-db";
 var database;
 
 
@@ -24,8 +24,8 @@ app.listen(5000,()=>{
     });
 });
 
-app.get('/api/GGMDB/',(request,response)=>{
-  database.collection('GGM-Collection1').find({}).toArray((error,result)=>{
+app.get('/api/GGM-db/',(request,response)=>{
+  database.collection('Collection-Posts').find({}).toArray((error,result)=>{
     if (error) {
       console.error('Error occurred:', error);
       response.status(500).json({ message: 'Failed to fetch posts' });
@@ -35,9 +35,9 @@ app.get('/api/GGMDB/',(request,response)=>{
   });
 });
 
-// app.post('/api/GGMDB/AddPosts',multer().none(),(request,response)=>{
-//   database.collection("GGM-Collection1").count({},fuction(error,numOfDocs){
-//     database.collection("GGM-Collection1").insertOne({
+// app.post('/api/GGM-db/AddPosts',multer().none(),(request,response)=>{
+//   database.collection("Collection-Posts").count({},fuction(error,numOfDocs){
+//     database.collection("Collection-Posts").insertOne({
 //       id:(numOfDocs+1).toString(),
 //       description:request.body.newNotes
 //     });
@@ -55,8 +55,8 @@ app.post('/make-post', async (req, res) => {
   try {
       await client.connect();
       
-      const db = client.db('GGMDB');
-      const postsCollection = db.collection('GGM-Collection1');
+      const db = client.db('GGM-db');
+      const postsCollection = db.collection('Collection-Posts');
 
       // Create a new post document
       const newPost = {
@@ -76,4 +76,4 @@ app.post('/make-post', async (req, res) => {
   }
 });
 
-// express local host: http://localhost:5000/api/GGMDB/
+// express local host: http://localhost:5000/api/GGM-db/
