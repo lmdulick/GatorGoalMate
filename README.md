@@ -29,6 +29,28 @@ Presentation Link: https://youtu.be/Cqd6nSOu-go
 # Architectural Design
 <img width="763" alt="image" src="https://github.com/lmdulick/GatorGoalMate/assets/116673406/48c849c6-9d8a-4e0a-9ffc-72cee50f882b">
 
+# Necessary Installations
+- git
+- npm / nodejs
+```shell
+npm i express
+```
+```shell
+npm i nodemon -D
+```
+```shell
+npm install react-scripts --save
+```
+```shell
+npm install cors
+```
+```shell
+npm install mongodb@4.1.0 --save
+```
+```shell
+npm install multer --save
+```
+
 # Instructions to Clone and Edit the Project
 To Clone the Repository:
 ```shell
