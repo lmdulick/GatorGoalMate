@@ -115,4 +115,27 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
+/*
+if you encounter an error while running the backend such as: 
+"[nodemon] app crashed - waiting for file changes before starting..."
+
+Follow these steps:
+    1) ensure there are no syntax errors in the server.js document
+    2) go on the MongoDB website: https://cloud.mongodb.com/
+    3) login using the GatorGoalMate gmail and password
+    4) click "Network Access" button on the left column
+    5) add your IP Address to the list of IP Addresses
+
+To navigate to the database:
+    1) On the left column, click: 'Database'
+    2) Click: 'ClusterGGM'
+    3) Below ClusterGGM, there is a series of buttons; click: 'Collections'
+    4) The database name is: 'GGM-db'
+    5) The collection name for posts is: 'Collection-Posts'
+
+The cluster used for this project is: 'ClusterGGM'
+The database name for this project is: 'GGM-db'
+The collection used for posts is: 'Collection-Posts'
+*/
+
 // express local host: http://localhost:5000/api/posts
