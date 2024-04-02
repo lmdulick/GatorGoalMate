@@ -17,7 +17,7 @@ function App() {
     try {
       const response = await fetch('http://localhost:5000/api/posts', { mode: 'cors' });
       const data = await response.json();
-      setBackendData(data.users);
+      setBackendData(data.user);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -37,11 +37,11 @@ function App() {
       replies: [],
     };
 
-    // fetch('http://localhost:5000/api/posts', {
-    //   method:'post',
-    //   headers: {'Content-Type':'application/json'},
-    //   body: JSON.stringify(newPost)
-    // })
+    fetch('http://localhost:5000/api/posts', {
+      method:'post',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(newPost)
+    })
     
     setPosts([newPost, ...posts]);
     setUserInput('');
@@ -49,6 +49,7 @@ function App() {
 
     
   };
+  
 
   const handleToggleReplyForm = (postId) => {
     setShowReplyForm((prevShowReplyForm) => ({
@@ -103,9 +104,9 @@ function App() {
         <p>Loading...</p>
       ) : (
         <>
-          {/* {backendData.map((user, i) => (
-            <p key={i}>{user}</p>
-          ))} */}
+          {backendData?.map(() => (
+            <p key={i}>{userName}</p>
+          ))}
 
           <div className="post-form">
             <button onClick={handleTogglePostForm}>Create Post</button>

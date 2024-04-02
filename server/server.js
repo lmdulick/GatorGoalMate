@@ -20,7 +20,7 @@ MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopolo
     console.log("MongoDB Connection Successful");
 });
 
-app.get('/api/posts', (request, response) => {
+app.get('/api/posts', (request, response) => {  
     database.collection('Collection-Posts').find({}).toArray((error, result) => {
         if (error) {
             console.error('Error occurred:', error);
@@ -47,34 +47,34 @@ app.get('/api/posts', (request, response) => {
 //   });
 // });
 
-// app.post('/api/posts/AddPosts', async (req, res) => {
-//   const { userName, content } = req.body;
+app.post('/api/posts', async (req, res) => {
+  const { userName, content } = req.body;
 
-//   // Connect user's post and replies to MongoDB
-//   const client = new Mongoclient(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
-//   try {
-//       await client.connect();
+  // Connect user's post and replies to MongoDB
+  const client = new MongoClient(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
+  try {
+      await client.connect();
       
-//       const db = client.db('GGM-db');
-//       const postsCollection = db.collection('Collection-Posts');
+      const db = client.db('GGM-db');
+      const postsCollection = db.collection('Collection-Posts');
 
-//       // Create a new post document
-//       const newPost = {
-//           userName,
-//           content,
-//           replies: []
-//       };
+      // Create a new post document
+      const newPost = {
+          userName,
+          content,
+          replies: []
+      };
 
-//       // Insert the new post into the database
-//       const result = await postsCollection.insertOne(newPost);
-//       res.status(201).json({ message: 'Post created successfully', postId: result.insertedId });
-//   } catch (error) {
-//       console.error('Error occurred:', error);
-//       res.status(500).json({ message: 'Failed to create post' });
-//   } finally {
-//       await client.close();
-//   }
-// });
+      // Insert the new post into the database
+      const result = await postsCollection.insertOne(newPost);
+      res.status(201).json({ message: 'Post created successfully', postId: result.insertedId });
+  } catch (error) {
+      console.error('Error occurred:', error);
+      res.status(500).json({ message: 'Failed to create post' });
+  } finally {
+      await client.close();
+  }
+});
 
 // app.post('/api/posts', multer().none(), async (request, response) => {
 //   const { userName, content } = request.body;
@@ -115,9 +115,16 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
+
+
+
 /*
+INSTRUCTIONS ON MongoDB
+
 if you encounter an error while running the backend such as: 
 "[nodemon] app crashed - waiting for file changes before starting..."
+OR
+you don't see "MongoDB Connection Successful"
 
 Follow these steps:
     1) ensure there are no syntax errors in the server.js document
@@ -125,6 +132,7 @@ Follow these steps:
     3) login using the GatorGoalMate gmail and password
     4) click "Network Access" button on the left column
     5) add your IP Address to the list of IP Addresses
+       * EVERYTIME YOU REOPEN THE PROJECT AND RERUN THE BACKEND - YOU MUST ADD YOUR IP ADDRESS ON THE MONGODB WEBSITE
 
 To navigate to the database:
     1) On the left column, click: 'Database'
@@ -137,5 +145,7 @@ The cluster used for this project is: 'ClusterGGM'
 The database name for this project is: 'GGM-db'
 The collection used for posts is: 'Collection-Posts'
 */
+
+
 
 // express local host: http://localhost:5000/api/posts
