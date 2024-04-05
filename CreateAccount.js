@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import logo from './GatorGoalMateLogo.png'; 
 import './CreateAccount.css'; 
+const UserProfile = require('./models/userProfile');
 
 function CreateAccount() {
   const [firstName, setFirstName] = useState('');
@@ -12,9 +13,24 @@ function CreateAccount() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Here you would handle form submission, perhaps sending data to a backend server
-    console.log(firstName, lastName, email, username, password, confirmPassword);
-  };
+    
+    const newUserProfile = new UserProfile({
+      username: username,
+      email: email,
+      password: password,
+      // Add other fields as necessary
+    });
+  
+    // Save the User Profile
+    newUserProfile.save((err) => {
+      if (err) throw err;
+      console.log('User profile saved successfully!');
+    });
+  
+    console.log(username, email, password, confirmPassword);
+    // send user information , perform async op in backend server
+  }
+  
 
   return (
     <div className="container">
