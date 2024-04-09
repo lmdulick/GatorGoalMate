@@ -50,7 +50,7 @@ function App() {
     setShowPostForm(!showPostForm);
   };
 
-  const handleMakePost = () => {
+  const handleMakePost = () => { 
     const newPost = {
       id: posts.length + 1,
       userName: 'Your Name', // Replace with the actual user's name
@@ -58,7 +58,7 @@ function App() {
       replies: [],
     };
 
-    fetch('http://localhost:5000/api/posts', {
+    fetch('http://localhost:5000/api/posts', { // need this in handlemakereply
       method:'post',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(newPost)
@@ -77,7 +77,7 @@ function App() {
     }));
   };
 
-  const handleMakeReply = (postId) => {
+  const handleMakeReply = (postId) => { // adjust this to save reples to mongoDB
     const updatedPosts = posts.map((post) =>
       post.id === postId
         ? {
