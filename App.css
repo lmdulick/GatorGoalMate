@@ -1,0 +1,66 @@
+header {
+    background-color: #5ba5c8;
+    color: white;
+    text-align: center;
+    padding: 1px;
+    width: 100%;
+  }
+  
+  .post-container {
+    border: 2px solid #395f79;
+    background-color:#a6cfe5;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .post-container p {
+    font-size: 1.6rem; /* Set the font size for original text */
+  }
+  
+  .post-container .reply {
+    font-size: 1rem; /* Set a smaller font size for replies */
+  }
+  
+  .post-container h3 {
+    font-size: 1rem; /* Set a smaller font size */
+    font-weight: bold; /* Remove bold style */
+  }
+
+  .post-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+button {
+  /* Default styles for buttons */
+  background-color: #3498db;
+  font-size: 1rem; 
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:active {
+  /* Styles when the button is clicked */
+  background-color: #2980b9;
+}
+
+.reply button {
+  /* Styles for reply buttons */
+  border-radius: 50%; /* Make it oval */
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* adjust this value to add space between the buttons */
+}
+
