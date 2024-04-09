@@ -50,6 +50,9 @@ npm install mongodb@4.1.0 --save
 ```shell
 npm install multer --save
 ```
+```shell
+npm install react-router-dom
+```
 
 # Instructions to Clone and Edit the Project
 To Clone the Repository:
