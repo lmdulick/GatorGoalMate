@@ -1,211 +1,43 @@
-// App.js
-
-import React, { useEffect, useState } from 'react';
-import './App.css';
+//test new code for navitagting between pages 
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './Login'; // path to your Login component
+import CreateAccount from './CreateAccount'; // path to your CreateAccount component
+import HomePage from './HomePage'; // path to your new HomePage component
 
 function App() {
-  const [backendData, setBackendData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [userInput, setUserInput] = useState('');
-  const [showPostForm, setShowPostForm] = useState(false);
-  const [posts, setPosts] = useState([]);
-  const [replyInput, setReplyInput] = useState('');
-  const [showReplyForm, setShowReplyForm] = useState({});
-  const [showAllReplies, setShowAllReplies] = useState({});
-
-
-
-  // const GetPost = async (postId) => {
-  //   try {
-  //     const response = await fetch('http://localhost:5000/api/posts', { mode: 'cors' });
-  //     // http://localhost:5000/api/posts/${postId}
-  //     const postData = await response.json();
-  //     // Update state or do something with postData
-  //     console.log("Post data:", postData);
-  //   } catch (error) {
-  //     console.error('Error fetching post:', error);
-  //   }
-  // };
-
-  // // New useEffect to call GetPost function
-  // useEffect(() => {
-  //   GetPost(/* pass the postId here */);
-  // }, []); // Add dependencies if needed`
-
-
-
-  const makeAPICall = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/posts', { mode: 'cors' });
-      const data = await response.json();
-      setBackendData(data.user);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setLoading(false);
-    }
-  };
-
-  const handleTogglePostForm = () => {
-    setShowPostForm(!showPostForm);
-  };
-
-  const handleMakePost = () => {
-    const newPost = {
-      id: posts.length + 1,
-      userName: 'Your Name', // Replace with the actual user's name
-      content: userInput,
-      replies: [],
-    };
-
-    fetch('http://localhost:5000/api/posts', {
-      method:'post',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(newPost)
-    })
-    
-    setPosts([newPost, ...posts]);
-    setUserInput('');
-    setShowPostForm(false);
-  };
-  
-
-  const handleToggleReplyForm = (postId) => {
-    setShowReplyForm((prevShowReplyForm) => ({
-      ...prevShowReplyForm,
-      [postId]: !prevShowReplyForm[postId],
-    }));
-  };
-
-  const handleMakeReply = (postId) => {
-    const updatedPosts = posts.map((post) =>
-      post.id === postId
-        ? {
-            ...post,
-            replies: [
-              ...post.replies,
-              { userName: 'Your Name', content: replyInput }, // Replace with the actual user's name
-            ],
-          }
-        : post
-    );
-  
-    // fetch('http://localhost:5000/api/posts', {
-    //   method:'get', // get post
-    //   headers: {'Content-Type':'application/json'}, // add reply to end of array of replies
-    //   body: JSON.stringify(newPost) // update
-    // })
-
-    // fetch('http://localhost:5000/api/posts', {
-    //   method:'put',
-    //   headers: {'Content-Type':'application/json'},
-    //   body: JSON.stringify(newPost)
-    // })
-
-    setPosts(updatedPosts);
-    setReplyInput('');
-    setShowReplyForm((prevShowReplyForm) => ({
-      ...prevShowReplyForm,
-      [postId]: false,
-    }));
-  };
-  
-
-  const handleShowAllReplies = (postId) => {
-    setShowAllReplies((prevShowAllReplies) => ({
-      ...prevShowAllReplies,
-      [postId]: true,
-    }));
-  };
-
-  useEffect(() => {
-    makeAPICall();
-  }, []);
-
-  useEffect(() => {
-    console.log(backendData);
-  }, [backendData]);
-
   return (
-    <div className="container">
-      <header>
-        <h1>GatorGoalMate</h1>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/create-account" element={<CreateAccount />} />
+        {/* Add other routes here */}
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+
+
+
+//prior code without homepage 
+/*
+import React from 'react';
+import './App.css';
+//import CreateAccount from './CreateAccount'; 
+import Login from './Login'; 
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        //<Login/>
       </header>
-
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          {backendData?.map((user, i) => (
-            <p key={i}>{user.userName}</p>
-          ))}
-
-          <div className="post-form">
-            <button onClick={handleTogglePostForm}>Create Post</button>
-
-            {showPostForm && (
-              <div className="post-container">
-                <textarea
-                  value={userInput}
-                  onChange={(e) => setUserInput(e.target.value)}
-                  placeholder="What's on your mind?"
-                />
-                <button onClick={handleMakePost}>Post</button>
-              </div>
-            )}
-          </div>
-
-          <div>
-            {posts.map((post) => (
-              <div key={post.id} className="post-container">
-                <p>
-                  <strong>{post.userName}</strong> {post.content}
-                </p>
-                <button onClick={() => handleToggleReplyForm(post.id)}>
-                  Reply
-                </button>
-
-                {showReplyForm[post.id] && (
-                  <div className="post-container reply-container">
-                    <textarea
-                      value={replyInput}
-                      onChange={(e) => setReplyInput(e.target.value)}
-                      placeholder="Your reply..."
-                    />
-                    <button onClick={() => handleMakeReply(post.id)}>
-                      Reply
-                    </button>
-                  </div>
-                )}
-
-{post.replies && (
-  <div>
-    <h3>Comments</h3>
-    {showAllReplies[post.id]
-      ? post.replies.slice().reverse().map((reply, index) => (
-          <p key={index} className="reply">
-            <strong>{reply.userName}</strong> {reply.content}
-          </p>
-        ))
-      : post.replies.slice().reverse().slice(0, 2).map((reply, index) => (
-          <p key={index} className="reply">
-            <strong>{reply.userName}</strong> {reply.content}
-          </p>
-        ))}
-
-    {post.replies.length > 2 && !showAllReplies[post.id] && (
-      <button onClick={() => handleShowAllReplies(post.id)}>
-        ...
-      </button>
-    )}
-  </div>
-)}
-              </div>
-            ))}
-          </div>
-        </>
-      )}
     </div>
   );
 }
+
 export default App;
+*/
