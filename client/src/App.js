@@ -13,6 +13,27 @@ function App() {
   const [showReplyForm, setShowReplyForm] = useState({});
   const [showAllReplies, setShowAllReplies] = useState({});
 
+
+
+  // const GetPost = async (postId) => {
+  //   try {
+  //     const response = await fetch('http://localhost:5000/api/posts', { mode: 'cors' });
+  //     // http://localhost:5000/api/posts/${postId}
+  //     const postData = await response.json();
+  //     // Update state or do something with postData
+  //     console.log("Post data:", postData);
+  //   } catch (error) {
+  //     console.error('Error fetching post:', error);
+  //   }
+  // };
+
+  // // New useEffect to call GetPost function
+  // useEffect(() => {
+  //   GetPost(/* pass the postId here */);
+  // }, []); // Add dependencies if needed`
+
+
+
   const makeAPICall = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/posts', { mode: 'cors' });
@@ -46,8 +67,6 @@ function App() {
     setPosts([newPost, ...posts]);
     setUserInput('');
     setShowPostForm(false);
-
-    
   };
   
 
@@ -70,6 +89,18 @@ function App() {
           }
         : post
     );
+  
+    // fetch('http://localhost:5000/api/posts', {
+    //   method:'get', // get post
+    //   headers: {'Content-Type':'application/json'}, // add reply to end of array of replies
+    //   body: JSON.stringify(newPost) // update
+    // })
+
+    // fetch('http://localhost:5000/api/posts', {
+    //   method:'put',
+    //   headers: {'Content-Type':'application/json'},
+    //   body: JSON.stringify(newPost)
+    // })
 
     setPosts(updatedPosts);
     setReplyInput('');
@@ -78,6 +109,7 @@ function App() {
       [postId]: false,
     }));
   };
+  
 
   const handleShowAllReplies = (postId) => {
     setShowAllReplies((prevShowAllReplies) => ({
@@ -104,8 +136,8 @@ function App() {
         <p>Loading...</p>
       ) : (
         <>
-          {backendData?.map(() => (
-            <p key={i}>{userName}</p>
+          {backendData?.map((user, i) => (
+            <p key={i}>{user.userName}</p>
           ))}
 
           <div className="post-form">
@@ -176,5 +208,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
