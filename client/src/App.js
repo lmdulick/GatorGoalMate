@@ -74,11 +74,7 @@ function App() {
       replies: [],
     };
 
-<<<<<<< HEAD
-    fetch('http://localhost:5000/api/posts', { // need this in handlemakereply
-=======
-    fetch('http://localhost:5001/api/posts', {
->>>>>>> 20534975bf290c23f53a102bde2ea65aa69a8451
+    fetch('http://localhost:5001/api/posts', { // need this in handlemakereply
       method:'post',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(newPost)
