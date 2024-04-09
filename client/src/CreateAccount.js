@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './GatorGoalMateLogo.png'; 
 import './CreateAccount.css'; 
 
@@ -9,13 +9,66 @@ function CreateAccount() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    //add backend here!
-    
-    console.log(firstName, lastName, email, username, password, confirmPassword);
+
+  const makeAPICall = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/profile', { mode: 'cors' });
+      const data = await response.json();
+      setFirstName(data.user);
+      setLastName(data.user);
+      setEmail(data.user);
+      setUsername(data.user);
+      setPassword(data.user);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false);
+    }
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+  
+    if (password !== confirmPassword) {
+      console.log("Passwords do not match");
+      // Optionally, you can set an error state to display a message to the user
+      return;
+    }
+  
+    try {
+      const response = await fetch('http://localhost:5000/api/profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          username,
+          password
+        })
+      });
+  
+      if (response.ok) {
+        console.log("Account created successfully");
+        // Optionally, you can redirect the user to another page or show a success message
+      } else {
+        console.error("Failed to create account");
+        // Optionally, you can set an error state to display a message to the user
+      }
+    } catch (error) {
+      console.error('Error creating account:', error);
+      // Optionally, you can set an error state to display a message to the user
+    }
+    //console.log(firstName, lastName, email, username, password, confirmPassword);
+  };
+
+  useEffect(() => {
+    makeAPICall();
+  }, []);
 
   return (
     <div className="container">

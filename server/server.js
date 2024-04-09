@@ -20,38 +20,40 @@ MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopolo
     console.log("MongoDB Connection Successful");
 });
 
-app.get('/api/posts', (request, response) => {  
-    database.collection('Collection-Posts').find({}).toArray((error, result) => {
+app.get('/api/profile', (request, response) => {  
+    database.collection('Collection-Profile').find({}).toArray((error, result) => {
         if (error) {
             console.error('Error occurred:', error);
-            response.status(500).json({ message: 'Failed to fetch posts' });
+            response.status(500).json({ message: 'Failed to fetch profiles' });
             return;
         }
         response.send(result);
     });
 });
 
-app.post('/api/posts', async (req, res) => {
-  const { userName, content } = req.body;
+app.post('/api/profile', async (req, res) => {
+  const { firstName, lastName, email, username, password } = req.body;
 
-  // Connect user's post and replies to MongoDB
+  // Connect user's profile info to MongoDB
   const client = new MongoClient(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
   try {
       await client.connect();
       
       const db = client.db('GGM-db');
-      const postsCollection = db.collection('Collection-Posts');
+      const profileCollection = db.collection('Collection-Profile');
 
-      // Create a new post document
-      const newPost = {
-          userName,
-          content,
-          replies: []
+      // Create a new profile document
+      const newProfile = {
+          firstName,
+          lastName,
+          email,
+          username,
+          password
       };
 
-      // Insert the new post into the database
-      const result = await postsCollection.insertOne(newPost);
-      res.status(201).json({ message: 'Post created successfully', postId: result.insertedId });
+      // Insert the new profile into the database
+      const result = await profileCollection.insertOne(newProfile);
+      res.status(201).json({ message: 'Profile created successfully', profileId: result.insertedId });
   } catch (error) {
       console.error('Error occurred:', error);
       res.status(500).json({ message: 'Failed to create post' });
@@ -90,13 +92,13 @@ To navigate to the database:
     2) Click: 'ClusterGGM'
     3) Below ClusterGGM, there is a series of buttons; click: 'Collections'
     4) The database name is: 'GGM-db'
-    5) The collection name for posts is: 'Collection-Posts'
+    5) The collection name for profiles is: 'Collection-Profile'
 
 The cluster used for this project is: 'ClusterGGM'
 The database name for this project is: 'GGM-db'
-The collection used for posts is: 'Collection-Posts'
+The collection used for profiles is: 'Collection-Profile'
 */
 
 
 
-// express local host: http://localhost:5000/api/posts
+// express local host: http://localhost:5000/api/profile
