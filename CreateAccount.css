@@ -1,0 +1,67 @@
+body, html {
+    height: 100%;
+    margin: 0;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .logo {
+    max-width: 150px; /* Adjust logo size as needed */
+    margin-bottom: 20px;
+  }
+  
+  .form-wrapper {
+    width: 100%;
+    max-width: 500px; /* Adjust form width as needed */
+    background-color: #d65616;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(51, 201, 9, 0.1);
+  }
+  
+  h2 {
+    color: #0021A5; /* UF Blue */
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  input[type=text],
+  input[type=email],
+  input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #0021A5; /* UF Blue */
+    color: #FFC72C; /* UF Orange */
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #FFC72C;
+    color: #0021A5;
+  }
+  
+  /* Add responsive design */
+  @media (max-width: 600px) {
+    .form-wrapper {
+      width: 90%;
+      padding: 20px;
+    }
+  }
+  

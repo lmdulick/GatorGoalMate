@@ -15,7 +15,7 @@ function App() {
 
   const makeAPICall = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/', { mode: 'cors' });
+      const response = await fetch('http://localhost:3000/api/posts', { mode: 'cors' });
       const data = await response.json();
       setBackendData(data.users);
       setLoading(false);
@@ -37,9 +37,17 @@ function App() {
       replies: [],
     };
 
+    // fetch('http://localhost:3000/api/posts', {
+    //   method:'post',
+    //   headers: {'Content-Type':'application/json'},
+    //   body: JSON.stringify(newPost)
+    // })
+    
     setPosts([newPost, ...posts]);
     setUserInput('');
     setShowPostForm(false);
+
+    
   };
 
   const handleToggleReplyForm = (postId) => {
