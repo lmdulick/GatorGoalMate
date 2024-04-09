@@ -61,7 +61,7 @@ app.post('/api/posts', async (req, res) => {
 });
   
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
@@ -99,4 +99,4 @@ The collection used for posts is: 'Collection-Posts'
 
 
 
-// express local host: http://localhost:5000/api/posts
+// express local host: http://localhost:5001/api/posts
