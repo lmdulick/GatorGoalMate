@@ -12,10 +12,26 @@ function App() {
   const [replyInput, setReplyInput] = useState('');
   const [showReplyForm, setShowReplyForm] = useState({});
   const [showAllReplies, setShowAllReplies] = useState({});
+    // State variable for showing or hiding the photo upload form
+  const [showPhotoForm, setShowPhotoForm] = useState(false);
+    // Function for toggling the visibility of the photo upload form
+  const handleTogglePhotoForm = () => {
+      setShowPhotoForm(!showPhotoForm);
+    };
+    // Function for handling the uploaded photos
+  const handlePhotoUpload = (files) => {
+      console.log(files); // You can process and upload files here
+    };
+    const buttonContainerStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      gap: '20px' // adjust this value to add space between the buttons
+    };
+  
 
   const makeAPICall = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/posts', { mode: 'cors' });
+      const response = await fetch('http://localhost:5001/api/posts', { mode: 'cors' });
       const data = await response.json();
       setBackendData(data.user);
       setLoading(false);
@@ -37,7 +53,7 @@ function App() {
       replies: [],
     };
 
-    fetch('http://localhost:5000/api/posts', {
+    fetch('http://localhost:5001/api/posts', {
       method:'post',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(newPost)
@@ -122,6 +138,21 @@ function App() {
               </div>
             )}
           </div>
+
+                <div className="photo-form">
+        <button onClick={handleTogglePhotoForm}>Upload Photos</button>
+
+        {showPhotoForm && (
+          <div className="photo-container">
+            <input
+              type="file"
+              onChange={(e) => handlePhotoUpload(e.target.files)}
+            />
+          </div>
+        )}
+      </div>
+
+
 
           <div>
             {posts.map((post) => (
