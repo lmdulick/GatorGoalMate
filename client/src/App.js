@@ -21,23 +21,7 @@ function App() {
 export default App;
 
 
-
-//prior code without homepage 
 /*
-import React from 'react';
-import './App.css';
-//import CreateAccount from './CreateAccount'; 
-import Login from './Login'; 
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        //<Login/>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+if you encounter an error when running this branch/the frontend, make sure to run this command first:
+      npm install react-router-dom
 */
