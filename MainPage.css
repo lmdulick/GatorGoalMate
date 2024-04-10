@@ -1,0 +1,68 @@
+header {
+    background-color: #002460; /* Dark blue */
+    color: white;
+    text-align: center;
+    padding: 1px;
+    width: 100%;
+  }
+  
+  .post-container {
+    border: 2px solid #00a5fb; /* Blue */
+    background-color: #ff6800; /* Orange */
+    color: white; /* For better contrast */
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .post-container p, .post-container h3 {
+    font-size: 1.6rem;
+  }
+  
+  .post-container .reply {
+    font-size: 1rem; /* Keep smaller font size for replies */
+    color: #ffffff; /* Ensure readability */
+  }
+  
+  .post-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  button {
+    background-color: #00a5fb; /* Blue */
+    font-size: 1rem;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none; /* Remove border */
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:active {
+    background-color: #002460; /* Dark blue */
+  }
+  
+  .reply button {
+    background-color: #ff5a00; /* Dark orange */
+    color: #ffffff;
+    border-radius: 50%; /* Keep it oval */
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .profile-link {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #FFFFFF;
+    background-color: #3498db;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  
