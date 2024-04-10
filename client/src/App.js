@@ -1,10 +1,8 @@
-// App.js
-
 import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid'; // Import uuid library for generating unique IDs
 import './App.css';
 
 function App() {
-  const [backendData, setBackendData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userInput, setUserInput] = useState('');
   const [showPostForm, setShowPostForm] = useState(false);
@@ -12,64 +10,69 @@ function App() {
   const [replyInput, setReplyInput] = useState('');
   const [showReplyForm, setShowReplyForm] = useState({});
   const [showAllReplies, setShowAllReplies] = useState({});
-
-
-
-  // const GetPost = async (postId) => {
-  //   try {
-  //     const response = await fetch('http://localhost:5000/api/posts', { mode: 'cors' });
-  //     // http://localhost:5000/api/posts/${postId}
-  //     const postData = await response.json();
-  //     // Update state or do something with postData
-  //     console.log("Post data:", postData);
-  //   } catch (error) {
-  //     console.error('Error fetching post:', error);
-  //   }
-  // };
-
-  // // New useEffect to call GetPost function
-  // useEffect(() => {
-  //   GetPost(/* pass the postId here */);
-  // }, []); // Add dependencies if needed`
-
-
-
+  
   const makeAPICall = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/posts', { mode: 'cors' });
+      if (!response.ok) {
+        throw new Error('Failed to fetch posts');
+      }
       const data = await response.json();
-      setBackendData(data.user);
+      // put them in reverse cronological order
+      const reversedPosts = data.reverse();
+      setPosts(reversedPosts);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching posts:', error.message);
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    makeAPICall();
+  }, []);
 
   const handleTogglePostForm = () => {
     setShowPostForm(!showPostForm);
   };
 
-  const handleMakePost = () => {
+
+
+
+
+  const handleMakePost = async () => {
     const newPost = {
-      id: posts.length + 1,
+      id: uuidv4(), // Generate a unique ID for the new post
       userName: 'Your Name', // Replace with the actual user's name
       content: userInput,
       replies: [],
     };
-
-    fetch('http://localhost:5000/api/posts', {
-      method:'post',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(newPost)
-    })
-    
-    setPosts([newPost, ...posts]);
-    setUserInput('');
-    setShowPostForm(false);
+  
+    try {
+      const response = await fetch('http://localhost:5000/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newPost),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to create post');
+      }
+  
+      // Update the state with the new post (without waiting for server response)
+      setPosts([newPost, ...posts]); // Add the new post to the beginning of the array
+  
+      setUserInput('');
+      setShowPostForm(false);
+    } catch (error) {
+      console.error('Error creating post:', error.message);
+    }
   };
   
+  
 
+
+  
   const handleToggleReplyForm = (postId) => {
     setShowReplyForm((prevShowReplyForm) => ({
       ...prevShowReplyForm,
@@ -77,7 +80,7 @@ function App() {
     }));
   };
 
-  const handleMakeReply = (postId) => {
+  const handleMakeReply = (postId) => { // adjust this to save reples to mongoDB
     const updatedPosts = posts.map((post) =>
       post.id === postId
         ? {
@@ -118,29 +121,19 @@ function App() {
     }));
   };
 
-  useEffect(() => {
-    makeAPICall();
-  }, []);
 
   useEffect(() => {
-    console.log(backendData);
-  }, [backendData]);
+    console.log(posts); // Use posts directly here, instead of backendData
+  }, [posts]); // Use posts as a dependency instead of backendData
+
+
 
   return (
     <div className="container">
       <header>
         <h1>GatorGoalMate</h1>
       </header>
-
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          {backendData?.map((user, i) => (
-            <p key={i}>{user.userName}</p>
-          ))}
-
-          <div className="post-form">
+      <div className="post-form">
             <button onClick={handleTogglePostForm}>Create Post</button>
 
             {showPostForm && (
@@ -154,58 +147,46 @@ function App() {
               </div>
             )}
           </div>
+          
 
-          <div>
-            {posts.map((post) => (
-              <div key={post.id} className="post-container">
-                <p>
-                  <strong>{post.userName}</strong> {post.content}
-                </p>
-                <button onClick={() => handleToggleReplyForm(post.id)}>
-                  Reply
-                </button>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          {posts.map((post) => {
+            console.log('Rendering post with ID:', post._id);
+            return (
+            <div key={post._id} className="post-container">
+              <p>
+                <strong>{post.userName}</strong> {post.content}
+              </p>
+              <button onClick={() => handleToggleReplyForm(post._id)}>
+                Reply
+              </button>
 
-                {showReplyForm[post.id] && (
-                  <div className="post-container reply-container">
-                    <textarea
-                      value={replyInput}
-                      onChange={(e) => setReplyInput(e.target.value)}
-                      placeholder="Your reply..."
-                    />
-                    <button onClick={() => handleMakeReply(post.id)}>
-                      Reply
-                    </button>
-                  </div>
-                )}
+              {showReplyForm[post._id] && (
+                <div className="post-container reply-container">
+                  <textarea
+                    value={replyInput}
+                    onChange={(e) => setReplyInput(e.target.value)}
+                    placeholder="Your reply..."
+                  />
+                  <button onClick={() => handleMakeReply(post._id)}>
+                    Reply
+                  </button>
+                </div>
+              )}
 
-{post.replies && (
-  <div>
-    <h3>Comments</h3>
-    {showAllReplies[post.id]
-      ? post.replies.slice().reverse().map((reply, index) => (
-          <p key={index} className="reply">
-            <strong>{reply.userName}</strong> {reply.content}
-          </p>
-        ))
-      : post.replies.slice().reverse().slice(0, 2).map((reply, index) => (
-          <p key={index} className="reply">
-            <strong>{reply.userName}</strong> {reply.content}
-          </p>
-        ))}
+              {/* Displaying replies... */}
+            </div>
+          );
+          })}
 
-    {post.replies.length > 2 && !showAllReplies[post.id] && (
-      <button onClick={() => handleShowAllReplies(post.id)}>
-        ...
-      </button>
-    )}
-  </div>
-)}
-              </div>
-            ))}
-          </div>
+          
         </>
       )}
     </div>
   );
 }
+
 export default App;
