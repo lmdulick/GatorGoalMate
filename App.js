@@ -27,6 +27,20 @@ function App() {
       justifyContent: 'center',
       gap: '20px' // adjust this value to add space between the buttons
     };
+
+    const [imageURL, setImageURL] = useState(''); // state to hold the image URL
+
+    const handleFileChange = (e) => { // read and set the uploaded file’s URL
+      const file = e.target.files[0];
+      if (file) {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+              setImageURL(reader.result);
+          };
+          reader.readAsDataURL(file);
+      }
+  };
+  
   
 
   const makeAPICall = async () => {
@@ -139,18 +153,19 @@ function App() {
             )}
           </div>
 
-                <div className="photo-form">
-        <button onClick={handleTogglePhotoForm}>Upload Photos</button>
+          <div className="photo-form">
+      <button onClick={handleTogglePhotoForm}>Upload Photos</button>
 
-        {showPhotoForm && (
-          <div className="photo-container">
-            <input
-              type="file"
-              onChange={(e) => handlePhotoUpload(e.target.files)}
-            />
-          </div>
-        )}
-      </div>
+      {showPhotoForm && (
+        <div className="photo-container">
+          <input
+            type="file"
+            onChange={(e) => handlePhotoUpload(e.target.files)}
+          />
+          {imageURL && <img src={imageURL} alt="Uploaded" style={{ width: '100px', height: '100px' }} />}
+        </div>
+      )}
+    </div>
 
 
 
