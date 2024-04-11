@@ -57,3 +57,14 @@ button:active {
   align-items: center;
   justify-content: center;
 }
+
+.profile-link {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: #FFFFFF;
+  background-color: #3498db;
+  padding: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+}
