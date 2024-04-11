@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import logo from './GatorGoalMateLogo.png'; 
 import './CreateAccount.css'; 
 
@@ -10,6 +11,7 @@ function CreateAccount() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
 
   const makeAPICall = async () => {
@@ -64,6 +66,9 @@ function CreateAccount() {
       // Optionally, you can set an error state to display a message to the user
     }
     //console.log(firstName, lastName, email, username, password, confirmPassword);
+    
+    // After form submission logic (e.g., after successful account creation), navigate to MainPage
+    navigate("/main-page"); // Use the path you've assigned to MainPage in your routing setup
   };
 
   useEffect(() => {
@@ -125,6 +130,7 @@ function CreateAccount() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <button type="submit" className="btn">Create Account</button>
+          
         </form>
       </div>
     </div>

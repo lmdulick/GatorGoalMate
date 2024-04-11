@@ -1,9 +1,10 @@
-//test new code for navitagting between pages 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './Login'; // path to your Login component
-import CreateAccount from './CreateAccount'; // path to your CreateAccount component
-import HomePage from './HomePage'; // path to your new HomePage component
+import Login from './Login';
+import CreateAccount from './CreateAccount';
+import HomePage from './HomePage';
+import MainPage from './MainPage';
+import ProfilePage from './ProfilePage';
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/create-account" element={<CreateAccount />} />
-        {/* Add other routes here */}
+        <Route path="/main-page" element={<MainPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        {/* Add any other routes here */}
       </Routes>
     </Router>
   );
