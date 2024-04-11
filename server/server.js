@@ -96,28 +96,6 @@ app.post('/api/posts/:postId/replies', async (req, res) => {
   }
 });
 
-// const express = require('express');
-// var { MongoClient } = require('mongodb');
-// const cors = require('cors');
-// const multer = require('multer');
-
-// var app = express();
-// app.use(cors());
-// app.use(express.json());
-
-// var CONNECTION_STRING = "mongodb+srv://gatorgoalmate:SWE1!@clusterggm.yfnvpjv.mongodb.net/?retryWrites=true&w=majority&appName=ClusterGGM";
-// var DATABASE_NAME = "GGM-db";
-// var database;
-
-// MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true }, (error, client) => {
-//     if (error) {
-//         console.error("Error connecting to MongoDB:", error);
-//         process.exit(1); // Exit the application if unable to connect to the database
-//     }
-//     database = client.db(DATABASE_NAME);
-//     console.log("MongoDB Connection Successful");
-// });
-
 app.get('/api/profile', (request, response) => {  
     database.collection('Collection-Profile').find({}).toArray((error, result) => {
         if (error) {
@@ -159,14 +137,6 @@ app.post('/api/profile', async (req, res) => {
       await client.close();
   }
 });
-  
-
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}`);
-// });
-
-
 
 
 /*

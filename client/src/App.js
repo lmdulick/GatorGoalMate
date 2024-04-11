@@ -5,6 +5,7 @@ import CreateAccount from './CreateAccount';
 import HomePage from './HomePage';
 import MainPage from './MainPage';
 import ProfilePage from './ProfilePage';
+import './App.css';
 
 function App() {
   return (

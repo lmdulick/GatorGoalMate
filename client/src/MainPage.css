@@ -33,27 +33,27 @@ header {
 }
 
 button {
-/* Default styles for buttons */
-background-color: #3498db;
-font-size: 1rem; 
-color: #ffffff;
-padding: 10px 20px;
-border-radius: 10px;
-cursor: pointer;
-transition: background-color 0.3s ease;
+  /* Default styles for buttons */
+  background-color: #3498db;
+  font-size: 1rem; 
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button:active {
-/* Styles when the button is clicked */
-background-color: #2980b9;
+  /* Styles when the button is clicked */
+  background-color: #2980b9;
 }
 
 .reply button {
-/* Styles for reply buttons */
-border-radius: 50%; /* Make it oval */
-width: 30px;
-height: 30px;
-display: flex;
-align-items: center;
-justify-content: center;
+  /* Styles for reply buttons */
+  border-radius: 50%; /* Make it oval */
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
