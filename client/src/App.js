@@ -19,14 +19,21 @@ function App() {
       setShowPhotoForm(!showPhotoForm);
     };
     // Function for handling the uploaded photos
-  const handlePhotoUpload = (files) => {
-      console.log(files); // You can process and upload files here
-    };
-    const buttonContainerStyle = {
-      display: 'flex',
-      justifyContent: 'center',
-      gap: '20px' // adjust this value to add space between the buttons
-    };
+    function handlePhotoUpload(files) {
+      let file = files[0]; // get the uploaded file
+      let reader = new FileReader();
+      reader.onloadend = function() {
+          let img = document.createElement('img');
+          img.src = reader.result;
+          img.style.width = '100px'; // Set the width of the image
+          img.style.height = '100px'; // Set the height of the image
+          document.body.appendChild(img); // Append the image to the body of your site
+      }
+      reader.readAsDataURL(file);
+  }
+
+    
+  
   
 
 
