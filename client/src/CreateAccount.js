@@ -13,6 +13,7 @@ function CreateAccount() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [emailError, setEmailError] = useState(''); // State for email error message
 
 
   const makeAPICall = async () => {
@@ -31,8 +32,20 @@ function CreateAccount() {
     }
   };
 
+  const validateEmail = (email) => {
+    return email.endsWith("@ufl.edu");
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // Reset the email error state each time the form is submitted
+    setEmailError('');
+
+    // Check if the email ends with "@ufl.edu"
+    if (!validateEmail(email)) {
+      setEmailError('Email must end with "@ufl.edu"');
+      return; // Stop form submission if the email is invalid
+    }
   
     if (password !== confirmPassword) {
       console.log("Passwords do not match");
@@ -108,6 +121,7 @@ function CreateAccount() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          {emailError && <div className="error-message">{emailError}</div>}
           <input
             type="text"
             id="username"
