@@ -68,3 +68,14 @@ button:active {
   border-radius: 5px;
   text-decoration: none;
 }
+
+.homepage-link {
+  position: absolute;
+  top: 70px;
+  left: 20px;
+  color: #FFFFFF;
+  background-color: #3498db;
+  padding: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import logo from './GatorGoalMateLogo.png'; 
 import './Login.css'; 
 
@@ -17,6 +18,7 @@ function Login() {
         <img src={logo} alt="GatorGoalMate Logo" className="login-logo" />
         <form onSubmit={handleLogin} className="login-form">
           <h2 className="login-title">Login</h2>
+          <Link to="/" className="homepage-link">HomePage</Link>
           <div className="login-input-group">
             <input
               type="text"

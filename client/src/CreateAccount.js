@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from './GatorGoalMateLogo.png'; 
 import './CreateAccount.css'; 
 
@@ -80,6 +81,8 @@ function CreateAccount() {
       <img src={logo} alt="GatorGoalMate Logo" className="logo" />
       <div className="form-wrapper">
         <h2>Create Your Account</h2>
+        <Link to="/" className="homepage-link">Home</Link>
+        <Link to="/Login" className="login-link">Login</Link>
         <form id="accountForm" onSubmit={handleSubmit}>
           <input
             type="text"

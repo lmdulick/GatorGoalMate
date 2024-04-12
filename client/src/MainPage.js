@@ -118,7 +118,8 @@ function MainPage() {
     <div className="container">
       <header>
         <h1>GatorGoalMate</h1>
-        <Link to="/profile" className="profile-link">Go to Profile</Link>
+        <Link to="/profile" className="profile-link">Profile</Link>
+        <Link to="/" className="homepage-link">HomePage</Link>
       </header>
       <div className="post-form">
         <button onClick={handleTogglePostForm}>Create Post</button>

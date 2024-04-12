@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './ProfilePage.css'; 
 
 function ProfilePage() {
@@ -12,6 +13,8 @@ function ProfilePage() {
     <div className="profile-page">
       <div className="profile-header">
         <h2>User Profile</h2>
+        <Link to="/" className="homepage-link">Home Page</Link>
+        <Link to="/main-page" className="mainpage-link">Main Page</Link>
       </div>
       <div className="profile-detail">
         <label>Name:</label>
