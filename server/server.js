@@ -3,7 +3,7 @@ const { MongoClient, ObjectId } = require('mongodb');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 const CONNECTION_STRING = "mongodb+srv://gatorgoalmate:SWE1!@clusterggm.yfnvpjv.mongodb.net/?retryWrites=true&w=majority&appName=ClusterGGM";
 const DATABASE_NAME = "GGM-db";
@@ -169,4 +169,4 @@ The collection used for profiles is: 'Collection-Profile'
 
 
 
-// express local host: http://localhost:5000/api/profile
+// express local host: http://localhost:5001/api/profile

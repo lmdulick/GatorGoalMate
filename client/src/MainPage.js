@@ -13,7 +13,7 @@ function MainPage() {
 
   const makeAPICall = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/posts', { mode: 'cors' });
+      const response = await fetch('http://localhost:5001/api/posts', { mode: 'cors' });
       if (!response.ok) {
         throw new Error('Failed to fetch posts');
       }
@@ -43,7 +43,7 @@ function MainPage() {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/api/posts', {
+      const response = await fetch('http://localhost:5001/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newPost),
@@ -77,7 +77,7 @@ function MainPage() {
     };
 
     try {
-      const response = await fetch(`http://localhost:5000/api/posts/${postId}/replies`, {
+      const response = await fetch(`http://localhost:5001/api/posts/${postId}/replies`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newReply),

@@ -17,7 +17,7 @@ function CreateAccount() {
 
   const makeAPICall = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/profile', { mode: 'cors' });
+      const response = await fetch('http://localhost:5001/api/profile', { mode: 'cors' });
       const data = await response.json();
       setFirstName(data.user);
       setLastName(data.user);
@@ -41,7 +41,7 @@ function CreateAccount() {
     }
   
     try {
-      const response = await fetch('http://localhost:5000/api/profile', {
+      const response = await fetch('http://localhost:5001/api/profile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
