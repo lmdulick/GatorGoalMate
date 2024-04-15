@@ -1,86 +1,164 @@
-header {
-  background-color: #5ba5c8;
-  color: white;
-  text-align: center;
-  padding: 1px;
-  width: 100%;
+* {
+  box-sizing: border-box;
 }
 
-.post-container {
-  background-color:#a6cfe5;
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+  
+}
+
+.column {
+  float: left;
   padding: 10px;
+  
+}
+
+.left {
+  width: 20%;
+  align-items: center; /* Center items along the cross (vertical) axis */
+   
+}
+
+.right {
+  width: 80%;
+}
+
+
+.sidebar {
+  width: 250px;
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+}
+
+.row h1 {
+  font-size: 30px;
+  color: #5ba5c8;
+  margin-bottom: 20px;
+}
+
+.sidebar-link {
+  display: block;
+  color: #333;
+  font-size: 30px;
+  text-decoration: none;
+  text-align: center; /* Center-align text */
   margin-bottom: 10px;
-  margin-top: 1px;
-  border-radius: 20px; 
-  width: 400px;
 }
 
-.post-container p {
-  margin-top: 1px;
-  font-size: 1.6rem; /* Set the font size for original text */
-}
-
-.post-container .reply {
-  font-size: 1rem; /* Set a smaller font size for replies */
-}
-
-.post-container h3 {
-  text-align: left;
-  font-size: 1rem; /* Set a smaller font size */
-  font-weight: bold; /* Remove bold style */
-}
-
-.post-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-button {
-  background-color: #3498db;
-  font-size: 1rem; 
-  color: #ffffff;
-  padding: 7px;
-  border-color: white;
-  border-width: 0px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:active {
-  /* Styles when the button is clicked */
-  background-color: #2980b9;
-}
-
-.reply button {
-  /* Styles for reply buttons */
-  border-radius: 50%; /* Make it oval */
-  width: 10px;
-  height: 30px;
+.sidebar-button {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  
+  cursor: pointer;
+  
 }
 
-.profile-link {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  color: #FFFFFF;
-  background-color: #3498db;
-  padding: 10px;
-  border-radius: 5px;
-  text-decoration: none;
+.logo-image {
+  width: 40%; /* Adjust the width of the logo image */
+  height: auto; /* Maintain aspect ratio */
 }
 
-.homepage-link {
-  position: absolute;
-  top: 70px;
-  left: 20px;
-  color: #FFFFFF;
-  background-color: #3498db;
-  padding: 10px;
-  border-radius: 5px;
-  text-decoration: none;
+
+.post-container {
+  background-color: #a6cfe5;
+  padding: 8px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  position: relative; /* Ensure proper positioning of the trash button */
+
+}
+
+.post-button {
+  display: block;
+  width: 30%;
+  height: 50%;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #5ba5c8;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  align-items: center;
+}
+
+
+.post-button-small {
+  display: block;
+  width: 5%;
+  height: 25%;
+  padding: 8px;
+  font-size: 12px;
+  background-color: #5ba5c8;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  align-items: center;
+}
+
+
+
+.reply-button {
+  display: block;
+  width: 4%;
+  height: 25%;
+  font-size: 12px;
+  padding: 8px;
+  margin-top: 15px;
+  background-color: #5ba5c8;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+
+
+.post-form {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  border: dashed gray;
+}
+
+
+.reply-form {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  border: dashed gray;
+}
+
+.reply-container {
+  background-color: #a6cfe5;
+  border-radius: 20px;
+  position: relative;
+}
+
+.trash-button {
+  position: absolute; /* Position the button relative to the post container */
+  top: 7px; /* Adjust top position as needed */
+  right: 5px; /* Adjust right position as needed */
+  display: none; /* Hide the button by default */
+  cursor: pointer; /* Show pointer cursor */
+  background-color: #5ba5c8;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  font-weight: bold;
+}
+
+.post-container:hover .trash-button {
+  display: block; /* Show the button when the post container is hovered over */
 }

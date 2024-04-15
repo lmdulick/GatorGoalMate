@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import { Link } from 'react-router-dom';
 import './MainPage.css';
+import logo from './GatorGoalMateLogo.png'; 
 
 function MainPage() {
   const [loading, setLoading] = useState(true);
@@ -72,7 +72,7 @@ function MainPage() {
 
   const handleMakeReply = async (postId) => {
     const newReply = {
-      userName: 'Your Name', 
+      userName: 'Your Name',
       content: replyInput,
     };
 
@@ -87,8 +87,6 @@ function MainPage() {
         throw new Error('Failed to add reply');
       }
 
-
-
       // Update the posts state to reflect the newly added reply
       const updatedPosts = posts.map((post) => {
         if (post._id === postId) {
@@ -101,7 +99,7 @@ function MainPage() {
       });
 
       setPosts(updatedPosts);
-      console.log('Updated Posts:', updatedPosts); 
+      console.log('Updated Posts:', updatedPosts);
 
       setReplyInput('');
 
@@ -115,37 +113,46 @@ function MainPage() {
   };
 
   return (
-    <div className="container">
-      <header>
-        <h1>GatorGoalMate</h1>
-        <Link to="/profile" className="profile-link">Profile</Link>
-        <Link to="/" className="homepage-link">HomePage</Link>
-      </header>
-      <div className="post-form">
-        <button onClick={handleTogglePostForm}>Create Post</button>
+    <div className="row">
+      <div className="column left">
+
+        <button className="sidebar-button">
+          <Link to="/">
+            <img src={logo} alt="Logo" className="logo-image" />
+          </Link>
+         </button>
+
+        <Link to="/profile" className="sidebar-link">Profile</Link> 
+
+        <button className="post-button" onClick={handleTogglePostForm}>Post</button>
+      </div>
+
+      <div className="column right">
+        {/* Post Creation Form */}
         {showPostForm && (
-          <div className="post-container">
+          <div className="post-form">
             <textarea
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
-              placeholder="What's on your mind?"
+              placeholder="What's your goal?"
             />
-            <button onClick={handleMakePost}>Post</button>
+            <button className='post-button' onClick={handleMakePost}>Post</button>
           </div>
         )}
-      </div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          {posts.map((post) => (
+
+        {/* Render Posts */}
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          posts.map((post) => (
             <div key={post._id} className="post-container">
               <p>
                 <strong>{post.userName}</strong> {post.content}
               </p>
-              <button onClick={() => handleToggleReplyForm(post._id)}>Reply</button>
+              {/* Reply Form */}
+              <button className="reply-button" onClick={() => handleToggleReplyForm(post._id)}>Reply</button>
               {showReplyForm[post._id] && (
-                <div className="post-container reply-container">
+                <div className="reply-container">
                   <textarea
                     value={replyInput}
                     onChange={(e) => setReplyInput(e.target.value)}
@@ -154,16 +161,17 @@ function MainPage() {
                   <button onClick={() => handleMakeReply(post._id)}>Submit Reply</button>
                 </div>
               )}
-              {/* Displaying replies */}
+              {/* Display Replies */}
               {post.replies.slice().reverse().map((reply, index) => (
-                <div key={index} className="reply">
-                  <strong>{reply.userName}</strong> {reply.content}
+                <div key={index} className="reply-container">
+                  <p><strong>{reply.userName}</strong> {reply.content}</p>
+                  <button className="trash-button">X</button>
                 </div>
               ))}
             </div>
-          ))}
-        </>
-      )}
+          ))
+        )}
+      </div>
     </div>
   );
 }
