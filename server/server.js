@@ -105,6 +105,18 @@ app.get('/api/profile', (request, response) => {
         }
         response.send(result);
     });
+    console.log(result);
+});
+
+app.get('/api/profile/usernames', async (req, res) => {
+  try {
+    const profiles = await database.collection('Collection-Profile').find({}).toArray();
+    const usernames = profiles.map(profile => profile.username);
+    res.json(usernames);
+  } catch (error) {
+    console.error('Error fetching usernames:', error);
+    res.status(500).json({ message: 'Failed to fetch usernames' });
+  }
 });
 
 app.post('/api/profile', async (req, res) => {

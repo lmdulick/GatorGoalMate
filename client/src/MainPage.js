@@ -31,28 +31,49 @@ function MainPage() {
     makeAPICall();
   }, []);
 
+
+  const [usernames, setUsernames] = useState([]);
+
+  const fetchProfileUsername = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/profile/usernames');
+      if (!response.ok) {
+        throw new Error('Failed to fetch profile usernames');
+      }
+      const usernamesData = await response.json();
+      setUsernames(usernamesData);
+    } catch (error) {
+      console.error('Error fetching profile usernames:', error.message);
+    }
+  };
+  
+  
+
   const handleTogglePostForm = () => {
     setShowPostForm(!showPostForm);
   };
 
+
   const handleMakePost = async () => {
+    fetchProfileUsername();
+  
     const newPost = {
-      userName: 'Your Name', // Replace with the actual user's name
+      userName: usernames.length > 0 ? usernames[0] : 'Fallback Name', // Use the first username from the array
       content: userInput,
       replies: [],
     };
-
+  
     try {
       const response = await fetch('http://localhost:5000/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newPost),
       });
-
+  
       if (!response.ok) {
         throw new Error('Failed to create post');
       }
-
+  
       const result = await response.json();
       newPost._id = result.postId; // Assign the generated postId from the response
       setPosts([newPost, ...posts]);
@@ -62,6 +83,10 @@ function MainPage() {
       console.error('Error creating post:', error.message);
     }
   };
+  
+
+
+
 
   const handleToggleReplyForm = (postId) => {
     setShowReplyForm((prevShowReplyForm) => ({
@@ -147,7 +172,7 @@ function MainPage() {
           posts.map((post) => (
             <div key={post._id} className="post-container">
               <p>
-                <strong>{post.userName}</strong> {post.content}
+                <strong>Name</strong> {post.content}
               </p>
               {/* Reply Form */}
               <button className="reply-button" onClick={() => handleToggleReplyForm(post._id)}>Reply</button>
@@ -158,7 +183,7 @@ function MainPage() {
                     onChange={(e) => setReplyInput(e.target.value)}
                     placeholder="Your reply..."
                   />
-                  <button onClick={() => handleMakeReply(post._id)}>Submit Reply</button>
+                  <button className="reply-button" onClick={() => handleMakeReply(post._id)}>✔</button>
                 </div>
               )}
               {/* Display Replies */}
