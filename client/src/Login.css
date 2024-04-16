@@ -85,21 +85,6 @@ body, html {
   padding-top: 20px;
 }
 
-.login-forgot-btn {
-  background: none;
-  color: #00a5fb;
-  padding: 10px;
-  text-decoration: underline;
-  font-size: 14px;
-  border: none;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.login-forgot-btn:hover {
-  color: #ff6800;
-}
-
 .homepage-link {
   position: absolute;
   top: 70px;

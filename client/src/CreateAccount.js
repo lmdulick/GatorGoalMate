@@ -49,7 +49,7 @@ function CreateAccount() {
   
     if (password !== confirmPassword) {
       console.log("Passwords do not match");
-      // Optionally, you can set an error state to display a message to the user
+      // set an error state to display a message to the user
       return;
     }
   
@@ -95,7 +95,6 @@ function CreateAccount() {
       <div className="form-wrapper">
         <h2>Create Your Account</h2>
         <Link to="/" className="homepage-link">Home</Link>
-        <Link to="/Login" className="login-link">Login</Link>
         <form id="accountForm" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -116,7 +115,7 @@ function CreateAccount() {
           <input
             type="email"
             id="email"
-            placeholder="Email (must end with .ufl.edu)"
+            placeholder="Email (must end with @ufl.edu)"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}

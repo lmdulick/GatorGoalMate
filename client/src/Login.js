@@ -18,7 +18,7 @@ function Login() {
         <img src={logo} alt="GatorGoalMate Logo" className="login-logo" />
         <form onSubmit={handleLogin} className="login-form">
           <h2 className="login-title">Login</h2>
-          <Link to="/" className="homepage-link">HomePage</Link>
+          <Link to="/" className="homepage-link">Home</Link>
           <div className="login-input-group">
             <input
               type="text"
@@ -41,8 +41,6 @@ function Login() {
           </div>
           <button type="submit" className="login-btn">Login</button>
           <div className="login-additional-options">
-            <button type="button" className="login-forgot-btn">Forgot Password?</button>
-            <button type="button" className="login-forgot-btn">Forgot Username?</button>
           </div>
         </form>
       </div>
