@@ -10,6 +10,8 @@ function MainPage() {
   const [posts, setPosts] = useState([]);
   const [replyInput, setReplyInput] = useState('');
   const [showReplyForm, setShowReplyForm] = useState({});
+  const [usernames, setUsernames] = useState([]);
+  //const [username, setUsername] = useState('');
 
   const makeAPICall = async () => {
     try {
@@ -31,9 +33,6 @@ function MainPage() {
     makeAPICall();
   }, []);
 
-
-  const [usernames, setUsernames] = useState([]);
-
   const fetchProfileUsername = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/profile/usernames');
@@ -46,23 +45,25 @@ function MainPage() {
       console.error('Error fetching profile usernames:', error.message);
     }
   };
-  
-  
 
   const handleTogglePostForm = () => {
     setShowPostForm(!showPostForm);
   };
 
 
+
+
   const handleMakePost = async () => {
-    fetchProfileUsername();
+    await fetchProfileUsername();
   
     const newPost = {
       userName: usernames.length > 0 ? usernames[0] : 'Fallback Name', // Use the first username from the array
       content: userInput,
       replies: [],
     };
-  
+
+    console.log('New Post:', newPost); // Log the new post object to check if userName is present
+    
     try {
       const response = await fetch('http://localhost:5000/api/posts', {
         method: 'POST',
@@ -83,7 +84,6 @@ function MainPage() {
       console.error('Error creating post:', error.message);
     }
   };
-  
 
 
 
@@ -96,8 +96,10 @@ function MainPage() {
   };
 
   const handleMakeReply = async (postId) => {
+    await fetchProfileUsername();
+
     const newReply = {
-      userName: 'Your Name',
+      userName: usernames.length > 0 ? usernames[0] : 'Fallback Name',
       content: replyInput,
     };
 

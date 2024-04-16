@@ -97,15 +97,15 @@ app.post('/api/posts/:postId/replies', async (req, res) => {
 });
 
 app.get('/api/profile', (request, response) => {  
-    database.collection('Collection-Profile').find({}).toArray((error, result) => {
-        if (error) {
-            console.error('Error occurred:', error);
-            response.status(500).json({ message: 'Failed to fetch profiles' });
-            return;
-        }
-        response.send(result);
-    });
-    console.log(result);
+  database.collection('Collection-Profile').find({}).toArray((error, result) => {
+      if (error) {
+          console.error('Error occurred:', error);
+          response.status(500).json({ message: 'Failed to fetch profiles' });
+          return;
+      }
+      //console.log(result);
+      response.send(result);
+  });
 });
 
 app.get('/api/profile/usernames', async (req, res) => {
