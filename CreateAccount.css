@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+
+body, html {
+  height: 100%;
+  margin: 0;
+  background-color: #002460;
+  font-family: 'Open Sans', sans-serif;
+  color: #ffffff;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.logo {
+  max-width: 150px;
+  margin-bottom: 20px;
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #002460;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+input[type=text],
+input[type=email],
+input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 2px solid #00a5fb;
+  border-radius: 5px;
+  background-color: #f4f7f9;
+  color: #002460;
+}
+
+input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus {
+  border-color: #ff6800;
+  box-shadow: 0 0 0 3px rgba(255, 104, 0, 0.5);
+  outline: none;
+}
+
+.btn {
+  width: 100%;
+  padding: 15px;
+  background-color: #ff6800;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #ff5a00;
+  color: #ffffff;
+}
+
+@media (max-width: 600px) {
+  .form-wrapper {
+    width: 90%;
+    padding: 20px;
+  }
+}
+
+input.error {
+  border: 2px solid #ff5a00; /* Change border color to indicate error */
+}
+
+.error-message {
+  color: #ff5a00; /* Error message text color */
+  margin-top: -15px;
+  margin-bottom: 20px;
+  text-align: left;
+  width: 100%;
+}
+
+input.error {
+  border: 2px solid #ff5a00; /* Change border color to indicate error */
+}
+
+.error-message {
+  color: #ff5a00; /* Error message text color */
+  margin-top: -15px;
+  margin-bottom: 20px;
+  text-align: left;
+  width: 100%;
+}
+
