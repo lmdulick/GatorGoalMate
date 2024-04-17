@@ -25,12 +25,13 @@ function App() {
       reader.onloadend = function() {
           let img = document.createElement('img');
           img.src = reader.result;
-          img.style.width = '100px'; // Set the width of the image
-          img.style.height = '100px'; // Set the height of the image
+          img.style.width = '350px'; // Set the width of the image
+          img.style.height = '350px'; // Set the height of the image
           document.body.appendChild(img); // Append the image to the body of your site
       }
       reader.readAsDataURL(file);
   }
+
 
     
   
@@ -40,8 +41,8 @@ function App() {
 
   // const GetPost = async (postId) => {
   //   try {
-  //     const response = await fetch('http://localhost:5000/api/posts', { mode: 'cors' });
-  //     // http://localhost:5000/api/posts/${postId}
+  //     const response = await fetch('http://localhost:3000/api/posts', { mode: 'cors' });
+  //     // http://localhost:3000/api/posts/${postId}
   //     const postData = await response.json();
   //     // Update state or do something with postData
   //     console.log("Post data:", postData);
@@ -113,13 +114,13 @@ function App() {
         : post
     );
   
-    // fetch('http://localhost:5000/api/posts', {
+    // fetch('http://localhost:3000/api/posts', {
     //   method:'get', // get post
     //   headers: {'Content-Type':'application/json'}, // add reply to end of array of replies
     //   body: JSON.stringify(newPost) // update
     // })
 
-    // fetch('http://localhost:5000/api/posts', {
+    // fetch('http://localhost:3000/api/posts', {
     //   method:'put',
     //   headers: {'Content-Type':'application/json'},
     //   body: JSON.stringify(newPost)
@@ -163,22 +164,19 @@ function App() {
             <p key={i}>{user.userName}</p>
           ))}
 
-          <div className="post-form">
-            <button onClick={handleTogglePostForm}>Create Post</button>
+<div className="post-form">
+  <button onClick={handleTogglePostForm}>Create Post</button>
 
-            {showPostForm && (
-              <div className="post-container">
-                <textarea
-                  value={userInput}
-                  onChange={(e) => setUserInput(e.target.value)}
-                  placeholder="What's on your mind?"
-                />
-                <button onClick={handleMakePost}>Post</button>
-              </div>
-            )}
-          </div>
+  {showPostForm && (
+    <div className="post-container">
+      <textarea
+        value={userInput}
+        onChange={(e) => setUserInput(e.target.value)}
+        placeholder="What's on your mind?"
+      />
+      <button onClick={handleMakePost}>Post</button>
 
-                <div className="photo-form">
+      <div className="photo-form">
         <button onClick={handleTogglePhotoForm}>Upload Photos</button>
 
         {showPhotoForm && (
@@ -190,6 +188,10 @@ function App() {
           </div>
         )}
       </div>
+    </div>
+  )}
+</div>
+
 
 
 
