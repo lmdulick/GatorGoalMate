@@ -90,6 +90,22 @@
   align-items: center;
 }
 
+.profile-button {
+  display: block;
+  width: 30%;
+  height: 50%;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #5ba5c8;
+  color: white;
+  text-decoration: none;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  align-items: center;
+}
+
 
 .post-button-small {
   display: block;
