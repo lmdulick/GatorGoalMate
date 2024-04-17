@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import logo from './GatorGoalMateLogo.png'; 
 import './Login.css'; 
@@ -6,10 +7,33 @@ import './Login.css';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
-    console.log('Logging in', { username, password });
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to login');
+      }
+
+      // Assuming the response includes some authentication token or user data
+      const userData = await response.json();
+      console.log('Login successful:', userData);
+      
+      // Redirect or set authentication state here
+    } catch (error) {
+      console.error('Error logging in:', error.message);
+    }
+    navigate("/main-page");
   };
 
   return (

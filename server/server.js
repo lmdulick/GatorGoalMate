@@ -150,6 +150,23 @@ app.post('/api/profile', async (req, res) => {
   }
 });
 
+app.post('/api/auth/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const profile = await database.collection('Collection-Profile').findOne({ username, password });
+
+    if (!profile) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    // Assuming successful login, return some user data or authentication token
+    res.json({ message: 'Login successful', user: profile });
+  } catch (error) {
+    console.error('Error logging in:', error);
+    res.status(500).json({ message: 'Failed to login' });
+  }
+});
 
 /*
 INSTRUCTIONS ON MongoDB
