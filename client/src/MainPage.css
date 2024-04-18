@@ -89,6 +89,8 @@
   border-radius: 100px;
   cursor: pointer;
   align-items: center;
+  margin: 7px;
+
 }
 
 .profile-button {
@@ -105,6 +107,7 @@
   border-radius: 100px;
   cursor: pointer;
   align-items: center;
+  margin: 7px;
 }
 
 
