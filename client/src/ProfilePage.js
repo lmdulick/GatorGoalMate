@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './ProfilePage.css';
 import logo from './GatorGoalMateLogo.png';
 
 function ProfilePage() {
-  const navigate = useNavigate(); // Initialize the useNavigate hook
-  const [isEditing, setIsEditing] = useState({ firstName: false, lastName: false, password: false });
+  const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState({
+    firstName: false,
+    lastName: false,
+    username: false,
+    password: false,
+  });
+
   const [values, setValues] = useState({
-    firstName: 'John',
-    lastName: 'Doe',
-    password: ''
+    firstName: '',
+    lastName: '',
+    username: '',
+    password: '',
   });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-
-  // A state to track if any changes have been made
   const [changesMade, setChangesMade] = useState(false);
 
   const handleEdit = (field) => {
     setIsEditing({ ...isEditing, [field]: true });
-    setChangesMade(true); // Set changesMade to true when editing begins
+    setChangesMade(true);
   };
 
   const handleChange = (field, event) => {
@@ -27,14 +32,13 @@ function ProfilePage() {
   };
 
   const handleSave = () => {
-    console.log("Saving data:", values);
-    // Here you will integrate the API to update the data
-    setIsEditing({ firstName: false, lastName: false, password: false });
-    setChangesMade(false); // Reset changesMade to false after saving
+    console.log('Saving data:', values);
+    setIsEditing({ firstName: false, lastName: false, username: false, password: false });
+    setChangesMade(false);
   };
 
   const handleDelete = () => {
-    navigate('/home'); // Navigate to HomePage after deletion
+    navigate('/');
   };
 
   return (
@@ -42,13 +46,13 @@ function ProfilePage() {
       <img src={logo} alt="GatorGoalMate Logo" className="profile-logo" />
       <div className="profile-header">
         <h2>Profile Information</h2>
-        <Link to="/" className="homepage-link">Home Page</Link>
-        <Link to="/main-page" className="mainpage-link">Main Page</Link>
+        <Link to="/" className="homepage-link">Home</Link>
+        <Link to="/main-page" className="mainpage-link">Main Screen</Link>
       </div>
 
-      {['firstName', 'lastName'].map((field) => (
+      {['firstName', 'lastName', 'username'].map((field) => (
         <div className="profile-detail" key={field}>
-          <label>{field === 'firstName' ? 'First Name:' : 'Last Name:'}</label>
+          <label>{field.charAt(0).toUpperCase() + field.slice(1).replace('Name', ' name') + ':'}</label>
           {isEditing[field] ? (
             <input
               type="text"
@@ -71,8 +75,11 @@ function ProfilePage() {
             onChange={(e) => handleChange('password', e)}
           />
         ) : (
-          <button className="edit-button" onClick={() => handleEdit('password')}>Change Password</button>
+          <span>{values.password}</span>
         )}
+        <button className="edit-button" onClick={() => handleEdit('password')}>
+          {isEditing.password ? 'Save' : 'Edit'}
+        </button>
       </div>
 
       {changesMade && (

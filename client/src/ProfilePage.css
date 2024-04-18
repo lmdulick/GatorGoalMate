@@ -17,7 +17,7 @@
 
 .profile-header {
   background-color: #00a5fb; /* Blue */
-  padding: 10px 20px;
+  padding: 0px 40px;
   border-radius: 10px;
   margin-bottom: 20px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
@@ -49,8 +49,7 @@
 }
 
 .edit-button,
-.save-button,
-.action-button {
+.save-button {
   background-color: #3498db; /* Lighter blue */
   color: #ffffff;
   padding: 10px 20px;
@@ -61,11 +60,29 @@
   margin-left: 10px; /* Added margin for spacing between text and button */
 }
 
+.action-button {
+  background-color: #3498db; /* Lighter blue */
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .edit-button:hover,
-.save-button:hover,
-.action-button:hover {
+.save-button:hover {
   background-color: #002460; /* Dark blue */
   transform: scale(1.05); /* Slight grow effect on hover */
+}
+
+.action-button:hover {
+  background-color: #002460; /* Dark blue */
+  transform:  translate(-50%, -50%) scale(1.05); /* Slight grow effect on hover */
 }
 
 .profile-actions {
@@ -76,6 +93,7 @@
   flex-direction: row; /* Align buttons in a row */
   justify-content: space-between; /* Even spacing between buttons */
 }
+
 
 /* Style for the confirmation modal */
 .modal {
@@ -121,6 +139,3 @@
   border-radius: 5px;
   text-decoration: none;
 }
-
-
-
