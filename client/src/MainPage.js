@@ -149,11 +149,8 @@ function MainPage() {
           </Link>
          </button>
 
-        <button className="profile-button">
-          <Link to="/profile">
-            Profile
-          </Link>
-         </button>
+          <Link to="/profile" className="profile-button">Profile</Link>
+          
         <button className="post-button" onClick={handleTogglePostForm}>Post</button>
       </div>
 
