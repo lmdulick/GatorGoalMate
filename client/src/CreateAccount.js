@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import MainPage from './MainPage';
 import logo from './GatorGoalMateLogo.png'; 
 import './CreateAccount.css'; 
-import MainPage from './MainPage';
+
 
 function CreateAccount() {
   const [firstName, setFirstName] = useState('');
