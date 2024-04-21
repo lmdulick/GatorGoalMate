@@ -57,7 +57,7 @@ function MainPage() {
     await fetchProfileUsername();
   
     const newPost = {
-      userName: usernames.length > 0 ? usernames[0] : 'Fallback Name', // Use the first username from the array
+      userName: 'Fallback Name', // Use the first username from the array
       content: userInput,
       replies: [],
     };
@@ -84,6 +84,51 @@ function MainPage() {
       console.error('Error creating post:', error.message);
     }
   };
+
+
+
+
+
+
+
+
+
+  const handleDeleteReply = async (postId, replyId) => {
+    console.log('Deleting reply:', postId, replyId);
+  
+    try {
+      const response = await fetch(`http://localhost:5000/api/posts/${postId}/replies/${replyId}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete reply');
+      }
+  
+      // Update the posts state to reflect the removal of the deleted reply
+      const updatedPosts = posts.map((post) => {
+        if (post._id === postId) {
+          return {
+            ...post,
+            replies: post.replies.filter((reply) => reply._id !== replyId),
+          };
+        }
+        return post;
+      });
+  
+      setPosts(updatedPosts);
+    } catch (error) {
+      console.error('Error deleting reply:', error.message);
+    }
+  };
+  
+
+
+
+
+
+
+
 
 
 
@@ -192,7 +237,7 @@ function MainPage() {
               {post.replies.slice().reverse().map((reply, index) => (
                 <div key={index} className="reply-container">
                   <p><strong>{reply.userName}</strong> {reply.content}</p>
-                  <button className="trash-button">X</button>
+                  <button className="trash-button" onClick={() => handleDeleteReply(post._id, reply._id)}>X</button>
                 </div>
               ))}
             </div>

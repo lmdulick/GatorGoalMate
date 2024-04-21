@@ -95,3 +95,16 @@ body, html {
   border-radius: 5px;
   text-decoration: none;
 }
+
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-top: 0px;
+  text-align: center;
+  padding: 5px;
+  background-color: #ffeeee;
+  border: 1px solid #ffaaaa;
+  border-radius: 4px;
+}
