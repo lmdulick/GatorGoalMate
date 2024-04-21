@@ -97,7 +97,7 @@ function ProfilePage() {
       )}
 
       <div className="profile-actions">
-        <button className="action-button" onClick={() => setShowDeleteModal(true)}>Delete Account</button>
+        <button className="delete-button" onClick={() => setShowDeleteModal(true)}>Delete Account</button>
       </div>
 
       {showDeleteModal && (

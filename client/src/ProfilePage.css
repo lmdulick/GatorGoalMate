@@ -61,7 +61,7 @@
   margin-left: 10px; /* Added margin for spacing between text and button */
 }
 
-.action-button {
+.delete-button {
   background-color: #3498db; /* Lighter blue */
   color: #ffffff;
   padding: 10px 20px;
@@ -83,7 +83,7 @@
   transform: scale(1.05); /* Slight grow effect on hover */
 }
 
-.action-button:hover {
+.delete-button:hover {
   background-color: #002460; 
   transform:  translate(-50%, -50%) scale(1.05); 
 }
