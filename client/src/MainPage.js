@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './MainPage.css';
 import logo from './GatorGoalMateLogo.png'; 
 
+
 function MainPage() {
   const [loading, setLoading] = useState(true);
   const [userInput, setUserInput] = useState('');
@@ -185,7 +186,8 @@ function MainPage() {
           </Link>
          </button>
 
-          <Link to="/profile" className="profile-button">Profile</Link>
+         <Link to="/profile" state={{ username: username}} className="profile-button">Profile</Link>
+
           
         <button className="post-button" onClick={handleTogglePostForm}>Post</button>
       </div>

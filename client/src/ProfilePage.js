@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import MainPage from './MainPage';
 import './ProfilePage.css';
 import logo from './GatorGoalMateLogo.png';
 
+
 function ProfilePage() {
   const navigate = useNavigate();
+
+  // const [username, setUsername] = useState('');
+  const location = useLocation();
+  const username = location.state.username;
+
+
   const [isEditing, setIsEditing] = useState({
     firstName: false,
     lastName: false,
@@ -21,6 +29,8 @@ function ProfilePage() {
   });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [changesMade, setChangesMade] = useState(false);
+
+  console.log("profile username: ", username);
 
   const handleEdit = (field) => {
     setIsEditing({ ...isEditing, [field]: true });
@@ -47,7 +57,7 @@ function ProfilePage() {
       <div className="profile-header">
         Profile Information
         <Link to="/" className="homepage-link">Home</Link>
-        <Link to="/main-page" className="mainpage-link">Main Screen</Link>
+        <Link to="/main-page" state={{ username }} className="mainpage-link">Main Screen</Link>
       </div>
 
       {['firstName', 'lastName', 'username'].map((field) => (
