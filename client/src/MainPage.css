@@ -83,7 +83,7 @@
   padding: 15px;
   font-size: 20px;
   font-weight: bold;
-  background-color: #5ba5c8;
+  background-color: #3498db;
   color: white;
   border: none;
   border-radius: 100px;
@@ -100,7 +100,7 @@
   padding: 15px;
   font-size: 20px;
   font-weight: bold;
-  background-color: #5ba5c8;
+  background-color: #3498db;
   color: white;
   text-decoration: none;
   border: none;
@@ -117,7 +117,7 @@
   height: 25%;
   padding: 8px;
   font-size: 12px;
-  background-color: #5ba5c8;
+  background-color: #3498db;
   color: white;
   border: none;
   border-radius: 100px;
@@ -133,7 +133,7 @@
   font-size: 12px;
   padding: 8px;
   margin-top: 15px;
-  background-color: #5ba5c8;
+  background-color: #3498db;
   color: white;
   border: none;
   border-radius: 100px;
@@ -171,7 +171,7 @@
   right: 5px; /* Adjust right position as needed */
   display: none; /* Hide the button by default */
   cursor: pointer; /* Show pointer cursor */
-  background-color: #5ba5c8;
+  background-color: #3498db;
   color: white;
   border: none;
   border-radius: 100px;
