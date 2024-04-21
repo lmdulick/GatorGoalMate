@@ -11,13 +11,11 @@ function MainPage() {
   const [posts, setPosts] = useState([]);
   const [replyInput, setReplyInput] = useState('');
   const [showReplyForm, setShowReplyForm] = useState({});
-  //const [usernames, setUsernames] = useState([]);
-  //const [username, setUsername] = useState('');
 
   const location = useLocation();
   const username = location.state.username;
 
-  console.log("main page username: ", username);
+  //console.log("main page username: ", username);
 
   const makeAPICall = async () => {
     try {
@@ -54,7 +52,7 @@ function MainPage() {
       replies: [],
     };
 
-    console.log(username);
+    //console.log(username);
 
     console.log('New Post:', newPost); // Log the new post object to check if userName is present
     

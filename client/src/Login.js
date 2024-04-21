@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import MainPage from './MainPage';
 import logo from './GatorGoalMateLogo.png'; 
 import './Login.css'; 
 
@@ -32,7 +33,7 @@ function Login() {
   
       if (data.user) {
         console.log('Login successful:', data.user);
-        navigate("/main-page");
+        navigate("/main-page", {state : {username}});
       } else {
         console.error('User data not found in response');
         setErrorMessage('Invalid username or password. Please try again.');
