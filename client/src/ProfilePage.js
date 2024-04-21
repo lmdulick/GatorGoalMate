@@ -55,10 +55,10 @@ function ProfilePage() {
     <div className="profile-page">
       <img src={logo} alt="GatorGoalMate Logo" className="profile-logo" />
       <div className="profile-header">
-        <h2>Profile Information</h2>
+        Profile Information</div>
         <Link to="/" className="homepage-link">Home</Link>
         <Link to="/main-page" state={{ username }} className="mainpage-link">Main Screen</Link>
-      </div>
+      
 
       {['firstName', 'lastName', 'username'].map((field) => (
         <div className="profile-detail" key={field}>
