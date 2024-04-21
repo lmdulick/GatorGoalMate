@@ -82,6 +82,51 @@ function MainPage() {
 
 
 
+
+
+
+
+
+  const handleDeleteReply = async (postId, replyId) => {
+    console.log('Deleting reply:', postId, replyId);
+  
+    try {
+      const response = await fetch(`http://localhost:5000/api/posts/${postId}/replies/${replyId}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete reply');
+      }
+  
+      // Update the posts state to reflect the removal of the deleted reply
+      const updatedPosts = posts.map((post) => {
+        if (post._id === postId) {
+          return {
+            ...post,
+            replies: post.replies.filter((reply) => reply._id !== replyId),
+          };
+        }
+        return post;
+      });
+  
+      setPosts(updatedPosts);
+    } catch (error) {
+      console.error('Error deleting reply:', error.message);
+    }
+  };
+  
+
+
+
+
+
+
+
+
+
+
+
   const handleToggleReplyForm = (postId) => {
     setShowReplyForm((prevShowReplyForm) => ({
       ...prevShowReplyForm,
@@ -187,7 +232,7 @@ function MainPage() {
               {post.replies.slice().reverse().map((reply, index) => (
                 <div key={index} className="reply-container">
                   <p><strong>{reply.userName}</strong> {reply.content}</p>
-                  <button className="trash-button">X</button>
+                  <button className="trash-button" onClick={() => handleDeleteReply(post._id, reply._id)}>X</button>
                 </div>
               ))}
             </div>

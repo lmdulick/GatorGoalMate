@@ -7,11 +7,12 @@ import './Login.css';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    
+  
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
@@ -20,22 +21,29 @@ function Login() {
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
+      const data = await response.json();
+  
+      console.log('Login response:', data);
+  
       if (!response.ok) {
-        throw new Error('Failed to login');
+        throw new Error(data.message || 'Failed to login');
       }
-
-      // Assuming the response includes some authentication token or user data
-      const userData = await response.json();
-      console.log('Login successful:', userData);
-      
-      // Redirect or set authentication state here
+  
+      if (data.user) {
+        console.log('Login successful:', data.user);
+        navigate("/main-page");
+      } else {
+        console.error('User data not found in response');
+        setErrorMessage('Invalid username or password. Please try again.');
+      }
     } catch (error) {
       console.error('Error logging in:', error.message);
+      setErrorMessage('Invalid username or password. Please try again.');
     }
-    navigate("/main-page");
   };
-
+  
+  
   return (
     <div className="login-container">
       <div className="login-content">
@@ -63,13 +71,17 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <button type="submit" className="login-btn">Login</button>
           <div className="login-additional-options">
+            {/* Additional options (e.g., forgot password, sign up) */}
           </div>
         </form>
       </div>
     </div>
   );
+  
+  
 }
 
 export default Login;
