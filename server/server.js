@@ -96,6 +96,37 @@ app.post('/api/posts/:postId/replies', async (req, res) => {
   }
 });
 
+
+
+
+// DELETE a reply from an existing post
+app.delete('/api/posts/:postId/replies/:replyIndex', async (req, res) => {
+  const { postId, replyIndex } = req.params;
+
+  try {
+    const postsCollection = database.collection('Collection-Posts');
+
+    // Find the post by ID and remove the reply at the specified index
+    const result = await postsCollection.updateOne(
+      { _id: ObjectId(postId) },
+      { $unset: { [`replies.${replyIndex}`]: 1 } }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.status(200).json({ message: 'Reply deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting reply:', error);
+    res.status(500).json({ message: 'Failed to delete reply' });
+  }
+});
+
+
+
+
+
 app.get('/api/profile', (request, response) => {  
   database.collection('Collection-Profile').find({}).toArray((error, result) => {
       if (error) {

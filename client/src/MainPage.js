@@ -86,34 +86,73 @@ function MainPage() {
 
 
 
-  const handleDeleteReply = async (postId, replyId) => {
-    console.log('Deleting reply:', postId, replyId);
+  // const handleDeleteReply = async (postId, replyId) => {
+  //   console.log('Deleting reply:', postId, replyId);
   
-    try {
-      const response = await fetch(`http://localhost:5000/api/posts/${postId}/replies/${replyId}`, {
-        method: 'DELETE',
-      });
+  //   try {
+  //     const response = await fetch(`http://localhost:5000/api/posts/${postId}/replies/${replyId}`, {
+  //       method: 'DELETE',
+  //     });
   
-      if (!response.ok) {
-        throw new Error('Failed to delete reply');
-      }
+  //     if (!response.ok) {
+  //       throw new Error('Failed to delete reply');
+  //     }
   
-      // Update the posts state to reflect the removal of the deleted reply
-      const updatedPosts = posts.map((post) => {
-        if (post._id === postId) {
-          return {
-            ...post,
-            replies: post.replies.filter((reply) => reply._id !== replyId),
-          };
-        }
-        return post;
-      });
+  //     // Update the posts state to reflect the removal of the deleted reply
+  //     const updatedPosts = posts.map((post) => {
+  //       if (post._id === postId) {
+  //         return {
+  //           ...post,
+  //           replies: post.replies.filter((reply) => reply._id !== replyId),
+  //         };
+  //       }
+  //       return post;
+  //     });
   
-      setPosts(updatedPosts);
-    } catch (error) {
-      console.error('Error deleting reply:', error.message);
+  //     setPosts(updatedPosts);
+  //   } catch (error) {
+  //     console.error('Error deleting reply:', error.message);
+  //   }
+  // };
+  const handleDeleteReply = async (postId, replyIndex, replyUserName) => {
+  console.log('Deleting reply');
+  console.log('Deleting post: ', postId);
+  console.log('Reply index: ', replyIndex);
+
+  console.log('username: ', username);
+  console.log('replyUserName: ', replyUserName);
+  try {
+    // Check if the reply's username matches the current user's username
+    if (replyUserName !== username) {
+      console.error('You are not authorized to delete this reply.');
+      return;
     }
-  };
+
+    const response = await fetch(`http://localhost:5000/api/posts/${postId}/replies/${replyIndex}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to delete reply');
+    }
+
+    // Update the posts state to reflect the removal of the deleted reply
+    const updatedPosts = posts.map((post) => {
+      if (post._id === postId) {
+        return {
+          ...post,
+          replies: post.replies.filter((_, index) => index !== replyIndex),
+        };
+      }
+      return post;
+    });
+
+    setPosts(updatedPosts);
+  } catch (error) {
+    console.error('Error deleting reply:', error.message);
+  }
+};
+
   
 
 
@@ -230,11 +269,15 @@ function MainPage() {
               )}
               {/* Display Replies */}
               {post.replies.slice().reverse().map((reply, index) => (
-                <div key={index} className="reply-container">
+              <div key={index} className="reply-container">
+              {reply && (
+                <>
                   <p><strong>{reply.userName}</strong> {reply.content}</p>
-                  <button className="trash-button" onClick={() => handleDeleteReply(post._id, reply._id)}>X</button>
-                </div>
-              ))}
+                  <button className="trash-button" onClick={() => handleDeleteReply(post._id, index, reply.userName)}>X</button>
+                </>
+              )}
+            </div>
+          ))}
             </div>
           ))
         )}
