@@ -45,7 +45,7 @@ function ProfilePage() {
     <div className="profile-page">
       <img src={logo} alt="GatorGoalMate Logo" className="profile-logo" />
       <div className="profile-header">
-        <h2>Profile Information</h2>
+        Profile Information
         <Link to="/" className="homepage-link">Home</Link>
         <Link to="/main-page" className="mainpage-link">Main Screen</Link>
       </div>
