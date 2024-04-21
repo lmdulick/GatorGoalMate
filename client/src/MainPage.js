@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './MainPage.css';
 import logo from './GatorGoalMateLogo.png'; 
@@ -10,8 +11,13 @@ function MainPage() {
   const [posts, setPosts] = useState([]);
   const [replyInput, setReplyInput] = useState('');
   const [showReplyForm, setShowReplyForm] = useState({});
-  const [usernames, setUsernames] = useState([]);
+  //const [usernames, setUsernames] = useState([]);
   //const [username, setUsername] = useState('');
+
+  const location = useLocation();
+  const username = location.state.username;
+
+  console.log("main page username: ", username);
 
   const makeAPICall = async () => {
     try {
@@ -33,19 +39,6 @@ function MainPage() {
     makeAPICall();
   }, []);
 
-  const fetchProfileUsername = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/profile/usernames');
-      if (!response.ok) {
-        throw new Error('Failed to fetch profile usernames');
-      }
-      const usernamesData = await response.json();
-      setUsernames(usernamesData);
-    } catch (error) {
-      console.error('Error fetching profile usernames:', error.message);
-    }
-  };
-
   const handleTogglePostForm = () => {
     setShowPostForm(!showPostForm);
   };
@@ -53,14 +46,15 @@ function MainPage() {
 
 
 
-  const handleMakePost = async () => {
-    await fetchProfileUsername();
+  const handleMakePost = async (username) => {
   
     const newPost = {
-      userName: usernames.length > 0 ? usernames[0] : 'Fallback Name', // Use the first username from the array
+      userName: username,
       content: userInput,
       replies: [],
     };
+
+    console.log(username);
 
     console.log('New Post:', newPost); // Log the new post object to check if userName is present
     
@@ -95,11 +89,10 @@ function MainPage() {
     }));
   };
 
-  const handleMakeReply = async (postId) => {
-    await fetchProfileUsername();
+  const handleMakeReply = async (postId, username) => {
 
     const newReply = {
-      userName: usernames.length > 0 ? usernames[0] : 'Fallback Name',
+      userName: username,
       content: replyInput,
     };
 
@@ -163,7 +156,8 @@ function MainPage() {
               onChange={(e) => setUserInput(e.target.value)}
               placeholder="What's your goal?"
             />
-            <button className='post-button' onClick={handleMakePost}>Post</button>
+            <button className='post-button' onClick={() => handleMakePost(username)}>Post</button>
+
           </div>
         )}
 
@@ -174,7 +168,7 @@ function MainPage() {
           posts.map((post) => (
             <div key={post._id} className="post-container">
               <p>
-                <strong>Name</strong> {post.content}
+                <strong>{post.userName}</strong> {post.content}
               </p>
               {/* Reply Form */}
               <button className="reply-button" onClick={() => handleToggleReplyForm(post._id)}>Reply</button>
@@ -185,7 +179,8 @@ function MainPage() {
                     onChange={(e) => setReplyInput(e.target.value)}
                     placeholder="Your reply..."
                   />
-                  <button className="reply-button" onClick={() => handleMakeReply(post._id)}>✔</button>
+                  <button className="reply-button" onClick={() => handleMakeReply(post._id, username)}>✔</button>
+
                 </div>
               )}
               {/* Display Replies */}

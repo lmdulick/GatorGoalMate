@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import logo from './GatorGoalMateLogo.png'; 
 import './CreateAccount.css'; 
+import MainPage from './MainPage';
 
 function CreateAccount() {
   const [firstName, setFirstName] = useState('');
@@ -20,13 +21,24 @@ function CreateAccount() {
     try {
       const response = await fetch('http://localhost:5000/api/profile', { mode: 'cors' });
       const data = await response.json();
+
+      // Only set state values if data.user is defined
+    if (data.user) {
       setFirstName(data.user);
       setLastName(data.user);
       setEmail(data.user);
       setUsername(data.user);
       setPassword(data.user);
-      setLoading(false);
-    } catch (error) {
+    }
+    setLoading(false);
+      // setFirstName(data.user);
+      // setLastName(data.user);
+      // setEmail(data.user);
+      // setUsername(data.user);
+      // setPassword(data.user);
+      // setLoading(false);
+    } 
+    catch (error) {
       console.error('Error fetching data:', error);
       setLoading(false);
     }
@@ -70,6 +82,8 @@ function CreateAccount() {
   
       if (response.ok) {
         console.log("Account created successfully");
+        navigate("/main-page", {state : {username}});
+        //console.log("username: ", username);
         // Optionally, you can redirect the user to another page or show a success message
       } else {
         console.error("Failed to create account");
@@ -82,7 +96,7 @@ function CreateAccount() {
     //console.log(firstName, lastName, email, username, password, confirmPassword);
     
     // After form submission logic (e.g., after successful account creation), navigate to MainPage
-    navigate("/main-page"); // Use the path you've assigned to MainPage in your routing setup
+    //navigate("/main-page"); // Use the path you've assigned to MainPage in your routing setup
   };
 
   useEffect(() => {
@@ -146,7 +160,7 @@ function CreateAccount() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <button type="submit" className="btn">Create Account</button>
-          
+
         </form>
       </div>
     </div>
