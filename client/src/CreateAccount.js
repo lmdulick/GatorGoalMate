@@ -32,12 +32,6 @@ function CreateAccount() {
       setPassword(data.user);
     }
     setLoading(false);
-      // setFirstName(data.user);
-      // setLastName(data.user);
-      // setEmail(data.user);
-      // setUsername(data.user);
-      // setPassword(data.user);
-      // setLoading(false);
     } 
     catch (error) {
       console.error('Error fetching data:', error);
