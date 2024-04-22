@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import MainPage from './MainPage';
 import './ProfilePage.css';
 import logo from './GatorGoalMateLogo.png';
 
-
 function ProfilePage() {
   const navigate = useNavigate();
-
-  // const [username, setUsername] = useState('');
   const location = useLocation();
   const username = location.state.username;
 
-
+  const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState({
     firstName: false,
     lastName: false,
@@ -24,13 +20,30 @@ function ProfilePage() {
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
-    username: '',
-    password: '',
+    username: username,
+    password: '********',
   });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [changesMade, setChangesMade] = useState(false);
 
-  console.log("profile username: ", username);
+  // search through 'Collection-Profile' to find the profile with the given username
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/profile', { mode: 'cors' });
+        if (!response.ok) {
+          throw new Error('Failed to fetch profiles');
+        }
+        const profiles = await response.json();
+        const foundProfile = profiles.find(profile => profile.username === username);
+        setProfile(foundProfile);
+      } catch (error) {
+        console.error('Error fetching profile:', error.message);
+      }
+    };
+
+    fetchProfile();
+  }, [username]);
 
   const handleEdit = (field) => {
     setIsEditing({ ...isEditing, [field]: true });
@@ -41,10 +54,30 @@ function ProfilePage() {
     setValues({ ...values, [field]: event.target.value });
   };
 
-  const handleSave = () => {
-    console.log('Saving data:', values);
-    setIsEditing({ firstName: false, lastName: false, username: false, password: false });
-    setChangesMade(false);
+  const handleSave = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/profile/${profile._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save changes');
+      }
+
+      setChangesMade(false);
+      setIsEditing({
+        firstName: false,
+        lastName: false,
+        username: false,
+        password: false,
+      });
+    } catch (error) {
+      console.error('Error saving changes:', error.message);
+    }
   };
 
   const handleDelete = () => {
@@ -60,7 +93,7 @@ function ProfilePage() {
         <Link to="/main-page" state={{ username }} className="mainpage-link">Main Screen</Link>
       
 
-      {['firstName', 'lastName', 'username'].map((field) => (
+      {profile && ['firstName', 'lastName', 'username'].map((field) => (
         <div className="profile-detail" key={field}>
           <label>{field.charAt(0).toUpperCase() + field.slice(1).replace('Name', ' name') + ':'}</label>
           {isEditing[field] ? (
@@ -70,7 +103,7 @@ function ProfilePage() {
               onChange={(e) => handleChange(field, e)}
             />
           ) : (
-            <span>{values[field]}</span>
+            <span>{profile[field]}</span>
           )}
           <button className="edit-button" onClick={() => handleEdit(field)}>Edit</button>
         </div>
@@ -101,8 +134,8 @@ function ProfilePage() {
       </div>
 
       {showDeleteModal && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="delete-pop-up">
+          <div className="delete-content">
             <p>Are you sure you want to delete your account?</p>
             <button onClick={handleDelete}>Yes</button>
             <button onClick={() => setShowDeleteModal(false)}>No</button>
