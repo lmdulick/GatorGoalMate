@@ -23,6 +23,13 @@
 
 .right {
   width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.post-column {
+  width: calc(50% - 20px); /* Each column occupies half of the .right container with padding */
+  padding: 0 40px; /* Add horizontal padding between columns */
 }
 
 
@@ -68,10 +75,12 @@
 
 .post-container {
   background-color: #75afcf;
-  padding: 8px;
-  margin-bottom: 20px;
+  padding: 12px;
+  margin-bottom: 15px;
   border-radius: 20px;
+  margin-right: 15px;
   position: relative; /* Ensure proper positioning of the trash button */
+  width: 350px;
 
 }
 
@@ -128,11 +137,12 @@
 
 .reply-button {
   display: block;
-  width: 4%;
-  height: 25%;
+  width: 50px;
+  height: 20%;
   font-size: 12px;
   padding: 8px;
   margin-top: 15px;
+  margin-bottom: 7px;
   background-color: #3498db;
   color: white;
   border: none;
@@ -145,9 +155,10 @@
 .post-form {
   background-color: white;
   padding: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   border-radius: 20px;
   border: dashed gray;
+  margin-right: 15px;
 }
 
 
@@ -181,6 +192,3 @@
 .post-container:hover .trash-button {
   display: block; /* Show the button when the post container is hovered over */
 }
-
-
-
