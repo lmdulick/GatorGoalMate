@@ -54,6 +54,7 @@ function ProfilePage() {
     setValues({ ...values, [field]: event.target.value });
   };
 
+  // EDIT a user's profile --- function still in progress
   const handleSave = async () => {
     try {
       const response = await fetch(`http://localhost:5000/api/profile/${profile._id}`, {
@@ -80,8 +81,22 @@ function ProfilePage() {
     }
   };
 
-  const handleDelete = () => {
-    navigate('/');
+  // DELETE a user's profile after clicking 'Delete Account' button
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/profile/${profile._id}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete profile');
+      }
+  
+      // Redirect to the opening page after successful deletion
+      navigate('/');
+    } catch (error) {
+      console.error('Error deleting profile:', error.message);
+    }
   };
 
   return (

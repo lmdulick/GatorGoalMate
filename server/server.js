@@ -244,6 +244,7 @@ app.delete('/api/profile/:profileId', async (req, res) => {
   }
 });
 
+
 // authenticate a username/password combo on the 'Login' page
 app.post('/api/auth/login', async (req, res) => {
   const { username, password } = req.body;
