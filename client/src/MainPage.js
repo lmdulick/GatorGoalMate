@@ -25,14 +25,21 @@ function MainPage() {
         throw new Error('Failed to fetch posts');
       }
       const data = await response.json();
-      const reversedPosts = data.reverse();
-      setPosts(reversedPosts);
+  
+      // Process posts and their replies to store in desired order
+      const processedPosts = data.map(post => ({
+        ...post,
+        replies: post.replies.reverse() // Reverse replies to store newest first
+      }));
+  
+      setPosts(processedPosts.reverse()); // Reverse posts to store newest first
       setLoading(false);
     } catch (error) {
       console.error('Error fetching posts:', error.message);
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     makeAPICall();
@@ -265,7 +272,7 @@ function MainPage() {
               )}
               
               {/* Display Replies */}
-              {post.replies.slice().reverse().map((reply, index) => (
+              {post.replies.map((reply, index) => (
               <div key={index} className="reply-container">
               {reply && (
                 <>
