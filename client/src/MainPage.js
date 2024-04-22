@@ -180,12 +180,11 @@ function MainPage() {
     <div className="row">
       <div className="column left">
 
+      <Link to="/">
         <button className="sidebar-button">
-          <Link to="/">
             <img src={logo} alt="Logo" className="logo-image" />
-          </Link>
          </button>
-
+         </Link>
          <Link to="/profile" state={{ username: username}} className="profile-button">Profile</Link>
 
           

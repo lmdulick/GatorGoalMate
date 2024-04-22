@@ -53,12 +53,15 @@ function ProfilePage() {
 
   return (
     <div className="profile-page">
-      <img src={logo} alt="GatorGoalMate Logo" className="profile-logo" />
-      <div className="profile-header">
-        Profile Information</div>
-        <Link to="/" className="homepage-link">Home</Link>
-        <Link to="/main-page" state={{ username }} className="mainpage-link">Main Screen</Link>
       
+        <button className="sidebar-button">
+          <Link to="/main-page" state={{ username }}>
+            <img src={logo} alt="Logo" className="logo-image" />
+          </Link>
+         </button>
+
+         <div className="profile-header">Profile Information</div>
+
 
       {['firstName', 'lastName', 'username'].map((field) => (
         <div className="profile-detail" key={field}>
@@ -97,7 +100,8 @@ function ProfilePage() {
       )}
 
       <div className="profile-actions">
-        <button className="delete-button" onClick={() => setShowDeleteModal(true)}>Delete Account</button>
+      <Link to="/" className="button">Logout</Link>
+        <button className="button" onClick={() => setShowDeleteModal(true)}>Delete Account</button>
       </div>
 
       {showDeleteModal && (
