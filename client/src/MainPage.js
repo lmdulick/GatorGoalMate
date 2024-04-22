@@ -82,47 +82,80 @@ function MainPage() {
 
 
 
+  // function to DELETE an entire post
+  const handleDeletePost = async (postId, postUserName) => {
+    console.log('Deleting post');
 
+    console.log('username: ', username);
+    console.log('postUserName: ', postUserName);
 
-
-
-  const handleDeleteReply = async (postId, replyId) => {
-    console.log('Deleting reply:', postId, replyId);
-  
     try {
-      const response = await fetch(`http://localhost:5000/api/posts/${postId}/replies/${replyId}`, {
+      // Check if the post's username matches the current user's username
+      if (postUserName !== username) {
+        console.error('You are not authorized to delete this post.');
+        return;
+      }
+
+      const response = await fetch(`http://localhost:5000/api/posts/${postId}`, {
         method: 'DELETE',
       });
-  
+
       if (!response.ok) {
-        throw new Error('Failed to delete reply');
+        throw new Error('Failed to delete post');
       }
-  
-      // Update the posts state to reflect the removal of the deleted reply
-      const updatedPosts = posts.map((post) => {
-        if (post._id === postId) {
-          return {
-            ...post,
-            replies: post.replies.filter((reply) => reply._id !== replyId),
-          };
-        }
-        return post;
-      });
-  
+
+      // Update the posts state to reflect the removal of the deleted post
+      const updatedPosts = posts.filter(post => post._id !== postId);
       setPosts(updatedPosts);
     } catch (error) {
-      console.error('Error deleting reply:', error.message);
+      console.error('Error deleting post:', error.message);
     }
   };
+
+
+
+
+  // function to DELETE a reply from an existing post
+  const handleDeleteReply = async (postId, replyIndex, replyUserName) => {
+  console.log('Deleting reply');
+  //console.log('Deleting post: ', postId);
+  //console.log('Reply index: ', replyIndex);
+
+  //console.log('username: ', username);
+  //console.log('replyUserName: ', replyUserName);
+  try {
+    // Check if the reply's username matches the current user's username
+    if (replyUserName !== username) {
+      console.error('You are not authorized to delete this reply.');
+      return;
+    }
+
+    const response = await fetch(`http://localhost:5000/api/posts/${postId}/replies/${replyIndex}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to delete reply');
+    }
+
+    // Update the posts state to reflect the removal of the deleted reply
+    const updatedPosts = posts.map((post) => {
+      if (post._id === postId) {
+        return {
+          ...post,
+          replies: post.replies.filter((_, index) => index !== replyIndex),
+        };
+      }
+      return post;
+    });
+
+    setPosts(updatedPosts);
+  } catch (error) {
+    console.error('Error deleting reply:', error.message);
+  }
+};
+
   
-
-
-
-
-
-
-
-
 
 
 
@@ -192,6 +225,7 @@ function MainPage() {
       </div>
 
       <div className="column right">
+        
         {/* Post Creation Form */}
         {showPostForm && (
           <div className="post-form">
@@ -214,6 +248,8 @@ function MainPage() {
               <p>
                 <strong>{post.userName}</strong> {post.content}
               </p>
+              <button className="trash-button" onClick={() => handleDeletePost(post._id, post.userName)}>X</button>
+              
               {/* Reply Form */}
               <button className="reply-button" onClick={() => handleToggleReplyForm(post._id)}>Reply</button>
               {showReplyForm[post._id] && (
@@ -227,13 +263,21 @@ function MainPage() {
 
                 </div>
               )}
+              
               {/* Display Replies */}
               {post.replies.slice().reverse().map((reply, index) => (
-                <div key={index} className="reply-container">
+              <div key={index} className="reply-container">
+              {reply && (
+                <>
                   <p><strong>{reply.userName}</strong> {reply.content}</p>
-                  <button className="trash-button" onClick={() => handleDeleteReply(post._id, reply._id)}>X</button>
-                </div>
-              ))}
+                  
+                  {/* NEED TO FIX INDEXING AND 'null' PROBLEMS */}
+                  <button className="trash-button" onClick={() => handleDeleteReply(post._id, index, reply.userName)}>X</button>
+                
+                </>
+              )}
+            </div>
+          ))}
             </div>
           ))
         )}

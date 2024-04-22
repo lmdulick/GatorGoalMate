@@ -40,7 +40,7 @@ app.get('/api/posts', async (req, res) => {
   }
 });
 
-// POST a new post with replies
+// CREATE a post
 app.post('/api/posts', async (req, res) => {
   const { userName, content, replies } = req.body;
 
@@ -96,6 +96,55 @@ app.post('/api/posts/:postId/replies', async (req, res) => {
   }
 });
 
+
+// DELETE an entire post
+app.delete('/api/posts/:postId', async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const postsCollection = database.collection('Collection-Posts');
+
+    // Delete the post by ID
+    const result = await postsCollection.deleteOne({ _id: ObjectId(postId) });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.status(200).json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    res.status(500).json({ message: 'Failed to delete post' });
+  }
+});
+
+
+// DELETE a reply from an existing post
+app.delete('/api/posts/:postId/replies/:replyIndex', async (req, res) => {
+  const { postId, replyIndex } = req.params;
+
+  try {
+    const postsCollection = database.collection('Collection-Posts');
+
+    // Find the post by ID and remove the reply at the specified index
+    const result = await postsCollection.updateOne(
+      { _id: ObjectId(postId) },
+      { $unset: { [`replies.${replyIndex}`]: 1 } }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.status(200).json({ message: 'Reply deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting reply:', error);
+    res.status(500).json({ message: 'Failed to delete reply' });
+  }
+});
+
+
+
 app.get('/api/profile', (request, response) => {  
   database.collection('Collection-Profile').find({}).toArray((error, result) => {
       if (error) {
@@ -108,6 +157,7 @@ app.get('/api/profile', (request, response) => {
   });
 });
 
+// CREATE a profile
 app.post('/api/profile', async (req, res) => {
   const { firstName, lastName, email, username, password } = req.body;
 
@@ -139,6 +189,63 @@ app.post('/api/profile', async (req, res) => {
   }
 });
 
+// UPDATE a profile
+app.put('/api/profile/:profileId', async (req, res) => {
+  const { profileId } = req.params;
+  const { firstName, lastName, email, username, password } = req.body;
+
+  try {
+    const profileCollection = database.collection('Collection-Profile');
+
+    // Construct the updated profile object
+    const updatedProfile = {
+      firstName,
+      lastName,
+      email,
+      username,
+      password
+    };
+
+    // Update the profile by ID
+    const result = await profileCollection.updateOne(
+      { _id: ObjectId(profileId) },
+      { $set: updatedProfile }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.status(200).json({ message: 'Profile updated successfully' });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ message: 'Failed to update profile' });
+  }
+});
+
+// DELETE a profile
+app.delete('/api/profile/:profileId', async (req, res) => {
+  const { profileId } = req.params;
+
+  try {
+    const profileCollection = database.collection('Collection-Profile');
+
+    // Delete the profile by ID
+    const result = await profileCollection.deleteOne({ _id: ObjectId(profileId) });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: 'Profile not found' });
+    }
+
+    res.status(200).json({ message: 'Profile deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting profile:', error);
+    res.status(500).json({ message: 'Failed to delete profile' });
+  }
+});
+
+
+// authenticate a username/password combo on the 'Login' page
 app.post('/api/auth/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -171,7 +278,6 @@ Follow these steps:
     3) login using the GatorGoalMate gmail and password
     4) click "Network Access" button on the left column
     5) add your IP Address to the list of IP Addresses
-       * EVERYTIME YOU REOPEN THE PROJECT AND RERUN THE BACKEND - YOU MUST ADD YOUR IP ADDRESS ON THE MONGODB WEBSITE
 
 To navigate to the database:
     1) On the left column, click: 'Database'
@@ -179,12 +285,20 @@ To navigate to the database:
     3) Below ClusterGGM, there is a series of buttons; click: 'Collections'
     4) The database name is: 'GGM-db'
     5) The collection name for profiles is: 'Collection-Profile'
+    6) The collection name for posts is: 'Collection-Posts'
 
 The cluster used for this project is: 'ClusterGGM'
 The database name for this project is: 'GGM-db'
 The collection used for profiles is: 'Collection-Profile'
+The collection used for posts is: 'Collection-Posts'
 */
 
+/* Express local hosts: 
+    Profiles: http://localhost:5000/api/profile
+    
+    Posts: http://localhost:5000/api/posts
+    Reply->Post: http://localhost:5000/api/posts/:postId/replies
+    Delete Reply: http://localhost:5000/api/posts/:postId/replies/:replyIndex
 
-
-// express local host: http://localhost:5000/api/profile
+    Login Authenticator: http://localhost:5000/api/auth/login
+*/
