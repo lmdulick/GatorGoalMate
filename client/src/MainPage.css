@@ -61,13 +61,13 @@
 }
 
 .logo-image {
-  width: 50%; /* Adjust the width of the logo image */
+  width: 30%; /* Adjust the width of the logo image */
   height: auto; /* Maintain aspect ratio */
 }
 
 
 .post-container {
-  background-color: #a6cfe5;
+  background-color: #75afcf;
   padding: 8px;
   margin-bottom: 20px;
   border-radius: 20px;
@@ -160,7 +160,7 @@
 }
 
 .reply-container {
-  background-color: #a6cfe5;
+  background-color: #75afcf;
   border-radius: 20px;
   position: relative;
 }
@@ -181,3 +181,6 @@
 .post-container:hover .trash-button {
   display: block; /* Show the button when the post container is hovered over */
 }
+
+
+
