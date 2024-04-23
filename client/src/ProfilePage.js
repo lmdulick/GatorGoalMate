@@ -69,6 +69,10 @@ function ProfilePage() {
         throw new Error('Failed to save changes');
       }
 
+
+      const updatedProfile = await response.json();
+      setProfile(updatedProfile);
+
       setChangesMade(false);
       setIsEditing({
         firstName: false,
@@ -76,6 +80,9 @@ function ProfilePage() {
         username: false,
         password: false,
       });
+
+      console.log("Changes successfully saved. ");
+
     } catch (error) {
       console.error('Error saving changes:', error.message);
     }
