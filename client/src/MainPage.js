@@ -241,7 +241,7 @@ function MainPage() {
               onChange={(e) => setUserInput(e.target.value)}
               placeholder="What's your goal?"
             />
-            <button className='post-button' onClick={() => handleMakePost(username)}>Post</button>
+            <button className='post-button-small' onClick={() => handleMakePost(username)}>✔</button>
 
           </div>
         )}
