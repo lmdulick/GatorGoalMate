@@ -2,6 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import { useContext } from 'react';
+import { PostContext, PostProvider } from './PostContext';
+
+
+
 
 function App() {
   const [backendData, setBackendData] = useState([]);
@@ -11,6 +16,9 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [replyInput, setReplyInput] = useState('');
   const [showReplyForm, setShowReplyForm] = useState({});
+  const [image, setImage] = useState(null);
+  //const { setPostImage } = useContext(PostContext);
+  //const { postImage } = useContext(PostContext);
   const [showAllReplies, setShowAllReplies] = useState({});
     // State variable for showing or hiding the photo upload form
   const [showPhotoForm, setShowPhotoForm] = useState(false);
@@ -23,14 +31,12 @@ function App() {
       let file = files[0]; // get the uploaded file
       let reader = new FileReader();
       reader.onloadend = function() {
-          let img = document.createElement('img');
-          img.src = reader.result;
-          img.style.width = '350px'; // Set the width of the image
-          img.style.height = '350px'; // Set the height of the image
-          document.body.appendChild(img); // Append the image to the body of your site
+          // Update the 'image' state with the data URL of the uploaded image
+          setImage(reader.result);
       }
       reader.readAsDataURL(file);
   }
+  
 
 
     
@@ -74,7 +80,8 @@ function App() {
     setShowPostForm(!showPostForm);
   };
 
-  const handleMakePost = () => { 
+  const handleMakePost = () => {
+    //setPostImage(image); 
     const newPost = {
       id: posts.length + 1,
       userName: 'Your Name', // Replace with the actual user's name
@@ -165,32 +172,41 @@ function App() {
           ))}
 
 <div className="post-form">
-  <button onClick={handleTogglePostForm}>Create Post</button>
+    <button onClick={handleTogglePostForm}>Create Post</button>
 
-  {showPostForm && (
-    <div className="post-container">
-      <textarea
-        value={userInput}
-        onChange={(e) => setUserInput(e.target.value)}
-        placeholder="What's on your mind?"
-      />
-      <button onClick={handleMakePost}>Post</button>
+    {showPostForm && (
+        <div className="post-container">
+            <div className="post-content">
+                <textarea
+                    value={userInput}
+                    onChange={(e) => setUserInput(e.target.value)}
+                    placeholder="What's on your mind?"
+                    style={{
+                        backgroundImage: image ? `url(${image})` : 'none',
+                        backgroundSize: 'cover',
+                        height: '200px',
+                    }}
+                />
+            </div>
+            <button onClick={handleMakePost}>Post</button>
 
-      <div className="photo-form">
-        <button onClick={handleTogglePhotoForm}>Upload Photos</button>
+            <div className="photo-form">
+                <button onClick={handleTogglePhotoForm}>Upload Photos</button>
 
-        {showPhotoForm && (
-          <div className="photo-container">
-            <input
-              type="file"
-              onChange={(e) => handlePhotoUpload(e.target.files)}
-            />
-          </div>
-        )}
-      </div>
-    </div>
-  )}
+                {showPhotoForm && (
+                    <div className="photo-container">
+                        <input
+                            type="file"
+                            onChange={(e) => handlePhotoUpload(e.target.files)}
+                        />
+                    </div>
+                )}
+            </div>
+        </div>
+    )}
 </div>
+
+
 
 
 
