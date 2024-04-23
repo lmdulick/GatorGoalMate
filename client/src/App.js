@@ -87,6 +87,7 @@ function App() {
       userName: 'Your Name', // Replace with the actual user's name
       content: userInput,
       replies: [],
+      image: image,
     };
 
     fetch('http://localhost:5001/api/posts', { // need this in handlemakereply
@@ -211,12 +212,17 @@ function App() {
 
 
 
-          <div>
-            {posts.map((post) => (
-              <div key={post.id} className="post-container">
-                <p>
-                  <strong>{post.userName}</strong> {post.content}
-                </p>
+                        <div>
+                        {posts.map((post) => (
+                <div key={post.id} className="post-container">
+                  
+                  {post.image && (
+                    <img src={post.image} alt="User Post" className="post-image" />
+                  )}
+                  
+                  <p className="post-user-name"><strong>{post.userName}</strong></p>
+                  <p>{post.content}</p>
+
                 <button onClick={() => handleToggleReplyForm(post.id)}>
                   Reply
                 </button>

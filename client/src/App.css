@@ -64,3 +64,10 @@ button:active {
   gap: 20px; /* adjust this value to add space between the buttons */
 }
 
+.post-image {
+  max-width: 23%; /* Ensures the image is not wider than its container */
+  height: auto; /* Keeps the image aspect ratio */
+  display: block; /* Fixes the issue with extra space under the image */
+  margin: 0 auto; /* Centers the image in the container if it's not full width */
+}
+

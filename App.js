@@ -169,12 +169,16 @@ function App() {
 
 
 
-          <div>
-            {posts.map((post) => (
-              <div key={post.id} className="post-container">
-                <p>
-                  <strong>{post.userName}</strong> {post.content}
-                </p>
+            <div>
+          {posts.map((post) => (
+            <div key={post.id} className="post-container">
+              {post.image && (
+                <img src={post.image} alt="User Post" className="post-image" />
+              )}
+              <p>
+                <strong>{post.userName}</strong> {post.content}
+              </p>
+              
                 <button onClick={() => handleToggleReplyForm(post.id)}>
                   Reply
                 </button>
