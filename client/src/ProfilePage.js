@@ -20,6 +20,7 @@ function ProfilePage() {
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
+    //email: email,
     username: username,
     password: '********',
   });
@@ -36,23 +37,43 @@ function ProfilePage() {
         }
         const profiles = await response.json();
         const foundProfile = profiles.find(profile => profile.username === username);
-        setProfile(foundProfile);
+        
+        if (foundProfile) {
+          setProfile(foundProfile);
+          setValues({
+            firstName: foundProfile.firstName || '',
+            lastName: foundProfile.lastName || '',
+            email: foundProfile.email,
+            username: foundProfile.username || '',
+            password: '********', // Assuming you don't display the actual password directly
+          });
+        }
       } catch (error) {
         console.error('Error fetching profile:', error.message);
       }
     };
-
+  
     fetchProfile();
   }, [username]);
+  
 
   const handleEdit = (field) => {
-    setIsEditing({ ...isEditing, [field]: true });
-    setChangesMade(true);
+    setIsEditing(prevState => ({
+      ...prevState,
+      [field]: true,
+    }));
+    setChangesMade(true); // Indicate that changes have been made
   };
+  
 
   const handleChange = (field, event) => {
-    setValues({ ...values, [field]: event.target.value });
+    setValues(prevValues => ({
+      ...prevValues,
+      [field]: event.target.value,
+    }));
+    setChangesMade(true); // Indicate that changes have been made
   };
+  
 
   // EDIT a user's profile --- function still in progress
   const handleSave = async () => {
