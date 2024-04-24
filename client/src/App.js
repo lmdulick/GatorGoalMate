@@ -66,7 +66,7 @@ function App() {
 
   const makeAPICall = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/posts', { mode: 'cors' });
+      const response = await fetch('http://localhost:5000/api/posts', { mode: 'cors' });
       const data = await response.json();
       setBackendData(data.user);
       setLoading(false);
@@ -90,7 +90,7 @@ function App() {
       image: image,
     };
 
-    fetch('http://localhost:5001/api/posts', { // need this in handlemakereply
+    fetch('http://localhost:5000/api/posts', { // need this in handlemakereply
       method:'post',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify(newPost)
