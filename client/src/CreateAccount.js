@@ -15,15 +15,15 @@ function CreateAccount() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const [emailError, setEmailError] = useState(''); // State for email error message
-
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const makeAPICall = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/profile', { mode: 'cors' });
       const data = await response.json();
 
-      // Only set state values if data.user is defined
+    // Only set state values if data.user is defined
     if (data.user) {
       setFirstName(data.user);
       setLastName(data.user);
@@ -43,10 +43,17 @@ function CreateAccount() {
     return email.endsWith("@ufl.edu");
   };
 
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Reset the email error state each time the form is submitted
+
+    // Reset the error states each time the form is submitted
     setEmailError('');
+    setPasswordError('');
 
     // Check if the email ends with "@ufl.edu"
     if (!validateEmail(email)) {
@@ -55,9 +62,13 @@ function CreateAccount() {
     }
   
     if (password !== confirmPassword) {
-      console.log("Passwords do not match");
-      // set an error state to display a message to the user
-      return;
+      setPasswordError('Passwords do not match');
+      return; // Stop form submission if passwords don't match
+    }
+
+    if (!validatePassword(password)) {
+      setPasswordError('Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character');
+      return; // Stop form submission if password is invalid
     }
   
     try {
@@ -78,20 +89,13 @@ function CreateAccount() {
       if (response.ok) {
         console.log("Account created successfully");
         navigate("/main-page", {state : {username}});
-        //console.log("username: ", username);
-        // Optionally, you can redirect the user to another page or show a success message
       } else {
         console.error("Failed to create account");
-        // Optionally, you can set an error state to display a message to the user
       }
     } catch (error) {
       console.error('Error creating account:', error);
-      // Optionally, you can set an error state to display a message to the user
     }
     //console.log(firstName, lastName, email, username, password, confirmPassword);
-    
-    // After form submission logic (e.g., after successful account creation), navigate to MainPage
-    //navigate("/main-page"); // Use the path you've assigned to MainPage in your routing setup
   };
 
   useEffect(() => {
@@ -154,8 +158,8 @@ function CreateAccount() {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          {passwordError && <div className="error-message">{passwordError}</div>}
           <button type="submit" className="btn">Create Account</button>
-
         </form>
       </div>
     </div>
