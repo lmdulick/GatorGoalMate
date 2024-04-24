@@ -43,10 +43,10 @@ function CreateAccount() {
     return email.endsWith("@ufl.edu");
   };
 
-  // const validatePassword = (password) => {
-  //   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-  //   return regex.test(password);
-  // };
+  const validatePassword = (password) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -66,10 +66,10 @@ function CreateAccount() {
       return; // Stop form submission if passwords don't match
     }
 
-    // if (!validatePassword(password)) {
-    //   setPasswordError('Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character');
-    //   return; // Stop form submission if password is invalid
-    // }
+    if (!validatePassword(password)) {
+      setPasswordError('Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special character');
+      return; // Stop form submission if password is invalid
+    }
   
     try {
       const response = await fetch('http://localhost:5000/api/profile', {
