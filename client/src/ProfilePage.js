@@ -20,10 +20,11 @@ function ProfilePage() {
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
-    //email: email,
+    email: '',
     username: username,
-    password: '********',
+    password: '',
   });
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [changesMade, setChangesMade] = useState(false);
 
@@ -41,11 +42,11 @@ function ProfilePage() {
         if (foundProfile) {
           setProfile(foundProfile);
           setValues({
-            firstName: foundProfile.firstName || '',
-            lastName: foundProfile.lastName || '',
+            firstName: foundProfile.firstName,
+            lastName: foundProfile.lastName,
             email: foundProfile.email,
-            username: foundProfile.username || '',
-            password: '********', // Assuming you don't display the actual password directly
+            username: foundProfile.username,
+            password: foundProfile.password,
           });
         }
       } catch (error) {
@@ -138,42 +139,39 @@ function ProfilePage() {
 
          <div className="profile-header">Profile Information</div>
 
-
-      {profile && ['firstName', 'lastName', 'username'].map((field) => (
-        <div className="profile-detail" key={field}>
-          <label>{field.charAt(0).toUpperCase() + field.slice(1).replace('Name', ' name') + ':'}</label>
-          {isEditing[field] ? (
-            <input
-              type="text"
-              value={values[field]}
-              onChange={(e) => handleChange(field, e)}
-            />
-          ) : (
-            <span>{profile[field]}</span>
-          )}
-          <button className="edit-button" onClick={() => handleEdit(field)}>Edit</button>
-        </div>
-      ))}
-
-      <div className="profile-detail">
-        <label>Password:</label>
-        {isEditing.password ? (
-          <input
-            type="password"
-            value={values.password}
-            onChange={(e) => handleChange('password', e)}
-          />
-        ) : (
-          <span>{values.password}</span>
-        )}
-        <button className="edit-button" onClick={() => handleEdit('password')}>
-          {isEditing.password ? 'Save' : 'Edit'}
-        </button>
+         <div className="profile-detail">
+        <label>Email:</label>
+            {values.email}
       </div>
 
-      {changesMade && (
-        <button className="save-button" onClick={handleSave}>Save Changes</button>
-      )}
+
+
+
+      {profile && ['firstName', 'lastName', 'username', 'password'].map((field) => (
+  <div className="profile-detail" key={field}>
+    <label>{field.charAt(0).toUpperCase() + field.slice(1).replace('Name', ' Name') + ':'}</label>
+    {isEditing[field] ? (
+      <>
+        <input
+          type={field === 'password' ? 'password' : 'text'} // Use password type for the password field
+          value={values[field]}
+          onChange={(e) => handleChange(field, e)}
+        />
+        {changesMade && (
+          <button className="save-button" onClick={() => handleSave(field)}>Save Changes</button>
+        )}
+      </>
+    ) : (
+      <span>{profile[field]}</span>
+    )}
+    {!isEditing[field] && (
+      <button className="edit-button" onClick={() => handleEdit(field)}>
+        Edit
+      </button>
+    )}
+  </div>
+))}
+
 
       <div className="profile-actions">
       <Link to="/" className="button">Logout</Link>
