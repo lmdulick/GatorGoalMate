@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { PostContext, PostProvider } from './PostContext';
 import './MainPage.css';
 import logo from './GatorGoalMateLogo.png'; 
 
@@ -12,6 +14,27 @@ function MainPage() {
   const [posts, setPosts] = useState([]);
   const [replyInput, setReplyInput] = useState('');
   const [showReplyForm, setShowReplyForm] = useState({});
+
+  const [image, setImage] = useState(null);
+  const [showAllReplies, setShowAllReplies] = useState({}); // State variable for showing or hiding the photo upload form
+  const [showPhotoForm, setShowPhotoForm] = useState(false); 
+  
+  
+  // Function for toggling the visibility of the photo upload form
+  const handleTogglePhotoForm = () => {
+      setShowPhotoForm(!showPhotoForm);
+    };
+
+    // Function for handling the uploaded photos
+    function handlePhotoUpload(files) {
+      let file = files[0]; // get the uploaded file
+      let reader = new FileReader();
+      reader.onloadend = function() {
+          // Update the 'image' state with the data URL of the uploaded image
+          setImage(reader.result);
+      }
+      reader.readAsDataURL(file);
+  }
 
   const location = useLocation();
   const username = location.state.username;
@@ -39,7 +62,6 @@ function MainPage() {
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     makeAPICall();
@@ -50,14 +72,13 @@ function MainPage() {
   };
 
 
-
-
   const handleMakePost = async (username) => {
   
     const newPost = {
       userName: username,
       content: userInput,
       replies: [],
+      image: image,
     };
 
     //console.log(username);
@@ -84,10 +105,6 @@ function MainPage() {
       console.error('Error creating post:', error.message);
     }
   };
-
-
-
-
 
   // function to DELETE an entire post
   const handleDeletePost = async (postId, postUserName) => {
@@ -118,8 +135,6 @@ function MainPage() {
       console.error('Error deleting post:', error.message);
     }
   };
-
-
 
 
   // function to DELETE a reply from an existing post
@@ -161,10 +176,6 @@ function MainPage() {
     console.error('Error deleting reply:', error.message);
   }
 };
-
-  
-
-
 
   const handleToggleReplyForm = (postId) => {
     setShowReplyForm((prevShowReplyForm) => ({
@@ -240,9 +251,25 @@ function MainPage() {
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               placeholder="What's your goal?"
+              style={{
+                backgroundImage: image ? `url(${image})` : 'none',
+                backgroundSize: 'cover',
+                height: '200px',
+            }}
             />
             <button className='post-button-small' onClick={() => handleMakePost(username)}>✔</button>
+            <div className="photo-form">
+                <button onClick={handleTogglePhotoForm}>Upload Photos</button>
 
+                {showPhotoForm && (
+                    <div className="photo-container">
+                        <input
+                            type="file"
+                            onChange={(e) => handlePhotoUpload(e.target.files)}
+                        />
+                    </div>
+                )}
+            </div>
           </div>
         )}
 
@@ -252,6 +279,9 @@ function MainPage() {
         ) : (
           posts.map((post) => (
             <div key={post._id} className="post-container">
+              {post.image && (
+                    <img src={post.image} alt="User Post" className="post-image" />
+              )}
               <p>
                 <strong>{post.userName}</strong> {post.content}
               </p>

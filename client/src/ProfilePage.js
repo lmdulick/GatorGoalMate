@@ -144,9 +144,6 @@ function ProfilePage() {
             {values.email}
       </div>
 
-
-
-
       {profile && ['firstName', 'lastName', 'username', 'password'].map((field) => (
   <div className="profile-detail" key={field}>
     <label>{field.charAt(0).toUpperCase() + field.slice(1).replace('Name', ' Name') + ':'}</label>
