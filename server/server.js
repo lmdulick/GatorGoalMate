@@ -42,7 +42,7 @@ app.get('/api/posts', async (req, res) => {
 
 // CREATE a post
 app.post('/api/posts', async (req, res) => {
-  const { userName, content, replies } = req.body;
+  const { userName, content, image, replies } = req.body;
 
   if (!userName || !content) {
     return res.status(400).json({ message: 'Missing required fields (userName or content)' });
@@ -55,6 +55,7 @@ app.post('/api/posts', async (req, res) => {
     const newPost = {
       userName,
       content,
+      image,
       replies: replies || [] // Default to empty array if replies not provided
     };
 
@@ -70,7 +71,7 @@ app.post('/api/posts', async (req, res) => {
 // POST a reply to an existing post
 app.post('/api/posts/:postId/replies', async (req, res) => {
   const { postId } = req.params;
-  const { userName, content } = req.body;
+  const { userName, content, image } = req.body;
 
   if (!userName || !content) {
     return res.status(400).json({ message: 'Missing required fields (userName or content)' });
@@ -82,7 +83,7 @@ app.post('/api/posts/:postId/replies', async (req, res) => {
     // Find the post by ID and update its replies array
     const result = await postsCollection.updateOne(
       { _id: ObjectId(postId) },
-      { $push: { replies: { userName, content } } }
+      { $push: { replies: { userName, content, image } } }
     );
 
     if (result.modifiedCount === 0) {
