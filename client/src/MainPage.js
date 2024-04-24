@@ -258,8 +258,8 @@ function MainPage() {
             }}
             />
             <button className='post-button-small' onClick={() => handleMakePost(username)}>✔</button>
-            <div className="photo-form">
-                <button onClick={handleTogglePhotoForm}>Upload Photos</button>
+            <div >
+                <button className='photo-form' onClick={handleTogglePhotoForm}>Upload Photos</button>
 
                 {showPhotoForm && (
                     <div className="photo-container">
