@@ -11,8 +11,8 @@ const DATABASE_NAME = "GGM-db";
 let database;
 
 app.use(cors());
-app.use(bodyParser.json({ limit: '10mb' })); // Increase JSON payload limit
-app.use(bodyParser.urlencoded({ limit: '10mb', extended: true })); // Increase URL-encoded payload limit
+app.use(bodyParser.json({ limit: '100mb' })); // Increase JSON payload limit
+app.use(bodyParser.urlencoded({ limit: '100mb', extended: true })); // Increase URL-encoded payload limit
 
 // Connect to MongoDB once when the server starts
 MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
