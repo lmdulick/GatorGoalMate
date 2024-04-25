@@ -81,7 +81,6 @@ function MainPage() {
       image: image,
     };
 
-    //console.log(username);
 
     console.log('New Post:', newPost); // Log the new post object to check if userName is present
     
