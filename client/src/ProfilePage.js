@@ -20,9 +20,11 @@ function ProfilePage() {
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
+    email: '',
     username: username,
-    password: '********',
+    password: '',
   });
+
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [changesMade, setChangesMade] = useState(false);
 
@@ -36,23 +38,43 @@ function ProfilePage() {
         }
         const profiles = await response.json();
         const foundProfile = profiles.find(profile => profile.username === username);
-        setProfile(foundProfile);
+        
+        if (foundProfile) {
+          setProfile(foundProfile);
+          setValues({
+            firstName: foundProfile.firstName,
+            lastName: foundProfile.lastName,
+            email: foundProfile.email,
+            username: foundProfile.username,
+            password: foundProfile.password,
+          });
+        }
       } catch (error) {
         console.error('Error fetching profile:', error.message);
       }
     };
-
+  
     fetchProfile();
   }, [username]);
+  
 
   const handleEdit = (field) => {
-    setIsEditing({ ...isEditing, [field]: true });
-    setChangesMade(true);
+    setIsEditing(prevState => ({
+      ...prevState,
+      [field]: true,
+    }));
+    setChangesMade(true); // Indicate that changes have been made
   };
+  
 
   const handleChange = (field, event) => {
-    setValues({ ...values, [field]: event.target.value });
+    setValues(prevValues => ({
+      ...prevValues,
+      [field]: event.target.value,
+    }));
+    setChangesMade(true); // Indicate that changes have been made
   };
+  
 
   // EDIT a user's profile --- function still in progress
   const handleSave = async () => {
@@ -69,6 +91,10 @@ function ProfilePage() {
         throw new Error('Failed to save changes');
       }
 
+
+      const updatedProfile = await response.json();
+      setProfile(updatedProfile);
+
       setChangesMade(false);
       setIsEditing({
         firstName: false,
@@ -76,6 +102,9 @@ function ProfilePage() {
         username: false,
         password: false,
       });
+
+      console.log("Changes successfully saved. ");
+
     } catch (error) {
       console.error('Error saving changes:', error.message);
     }
@@ -101,51 +130,49 @@ function ProfilePage() {
 
   return (
     <div className="profile-page">
-      <img src={logo} alt="GatorGoalMate Logo" className="profile-logo" />
-      <div className="profile-header">
-        Profile Information</div>
-        <Link to="/" className="homepage-link">Home</Link>
-        <Link to="/main-page" state={{ username }} className="mainpage-link">Main Screen</Link>
       
+        <button className="sidebar-button">
+          <Link to="/main-page" state={{ username }}>
+            <img src={logo} alt="Logo" className="logo-image" />
+          </Link>
+         </button>
 
-      {profile && ['firstName', 'lastName', 'username'].map((field) => (
-        <div className="profile-detail" key={field}>
-          <label>{field.charAt(0).toUpperCase() + field.slice(1).replace('Name', ' name') + ':'}</label>
-          {isEditing[field] ? (
-            <input
-              type="text"
-              value={values[field]}
-              onChange={(e) => handleChange(field, e)}
-            />
-          ) : (
-            <span>{profile[field]}</span>
-          )}
-          <button className="edit-button" onClick={() => handleEdit(field)}>Edit</button>
-        </div>
-      ))}
+         <div className="profile-header">Profile Information</div>
 
-      <div className="profile-detail">
-        <label>Password:</label>
-        {isEditing.password ? (
-          <input
-            type="password"
-            value={values.password}
-            onChange={(e) => handleChange('password', e)}
-          />
-        ) : (
-          <span>{values.password}</span>
-        )}
-        <button className="edit-button" onClick={() => handleEdit('password')}>
-          {isEditing.password ? 'Save' : 'Edit'}
-        </button>
+         <div className="profile-detail">
+        <label>Email:</label>
+            {values.email}
       </div>
 
-      {changesMade && (
-        <button className="save-button" onClick={handleSave}>Save Changes</button>
-      )}
+      {profile && ['firstName', 'lastName', 'username', 'password'].map((field) => (
+  <div className="profile-detail" key={field}>
+    <label>{field.charAt(0).toUpperCase() + field.slice(1).replace('Name', ' Name') + ':'}</label>
+    {isEditing[field] ? (
+      <>
+        <input
+          type={field === 'password' ? 'password' : 'text'} // Use password type for the password field
+          value={values[field]}
+          onChange={(e) => handleChange(field, e)}
+        />
+        {changesMade && (
+          <button className="save-button" onClick={() => handleSave(field)}>Save Changes</button>
+        )}
+      </>
+    ) : (
+      <span>{profile[field]}</span>
+    )}
+    {!isEditing[field] && (
+      <button className="edit-button" onClick={() => handleEdit(field)}>
+        Edit
+      </button>
+    )}
+  </div>
+))}
+
 
       <div className="profile-actions">
-        <button className="delete-button" onClick={() => setShowDeleteModal(true)}>Delete Account</button>
+      <Link to="/" className="button">Logout</Link>
+        <button className="button" onClick={() => setShowDeleteModal(true)}>Delete Account</button>
       </div>
 
       {showDeleteModal && (

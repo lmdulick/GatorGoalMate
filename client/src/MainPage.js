@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { PostContext, PostProvider } from './PostContext';
 import './MainPage.css';
 import logo from './GatorGoalMateLogo.png'; 
 
@@ -12,6 +14,27 @@ function MainPage() {
   const [posts, setPosts] = useState([]);
   const [replyInput, setReplyInput] = useState('');
   const [showReplyForm, setShowReplyForm] = useState({});
+
+  const [image, setImage] = useState(null);
+  const [showAllReplies, setShowAllReplies] = useState({}); // State variable for showing or hiding the photo upload form
+  const [showPhotoForm, setShowPhotoForm] = useState(false); 
+  
+  
+  // Function for toggling the visibility of the photo upload form
+  const handleTogglePhotoForm = () => {
+      setShowPhotoForm(!showPhotoForm);
+    };
+
+    // Function for handling the uploaded photos
+    function handlePhotoUpload(files) {
+      let file = files[0]; // get the uploaded file
+      let reader = new FileReader();
+      reader.onloadend = function() {
+          // Update the 'image' state with the data URL of the uploaded image
+          setImage(reader.result);
+      }
+      reader.readAsDataURL(file);
+  }
 
   const location = useLocation();
   const username = location.state.username;
@@ -25,8 +48,14 @@ function MainPage() {
         throw new Error('Failed to fetch posts');
       }
       const data = await response.json();
-      const reversedPosts = data.reverse();
-      setPosts(reversedPosts);
+  
+      // Process posts and their replies to store in desired order
+      const processedPosts = data.map(post => ({
+        ...post,
+        replies: post.replies.reverse() // Reverse replies to store newest first
+      }));
+  
+      setPosts(processedPosts.reverse()); // Reverse posts to store newest first
       setLoading(false);
     } catch (error) {
       console.error('Error fetching posts:', error.message);
@@ -43,17 +72,15 @@ function MainPage() {
   };
 
 
-
-
   const handleMakePost = async (username) => {
   
     const newPost = {
       userName: username,
       content: userInput,
       replies: [],
+      image: image,
     };
 
-    //console.log(username);
 
     console.log('New Post:', newPost); // Log the new post object to check if userName is present
     
@@ -77,10 +104,6 @@ function MainPage() {
       console.error('Error creating post:', error.message);
     }
   };
-
-
-
-
 
   // function to DELETE an entire post
   const handleDeletePost = async (postId, postUserName) => {
@@ -111,8 +134,6 @@ function MainPage() {
       console.error('Error deleting post:', error.message);
     }
   };
-
-
 
 
   // function to DELETE a reply from an existing post
@@ -154,10 +175,6 @@ function MainPage() {
     console.error('Error deleting reply:', error.message);
   }
 };
-
-  
-
-
 
   const handleToggleReplyForm = (postId) => {
     setShowReplyForm((prevShowReplyForm) => ({
@@ -213,12 +230,11 @@ function MainPage() {
     <div className="row">
       <div className="column left">
 
+      <Link to="/">
         <button className="sidebar-button">
-          <Link to="/">
             <img src={logo} alt="Logo" className="logo-image" />
-          </Link>
          </button>
-
+         </Link>
          <Link to="/profile" state={{ username: username}} className="profile-button">Profile</Link>
 
           
@@ -234,9 +250,25 @@ function MainPage() {
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               placeholder="What's your goal?"
+              style={{
+                backgroundImage: image ? `url(${image})` : 'none',
+                backgroundSize: 'cover',
+                height: '200px',
+            }}
             />
-            <button className='post-button' onClick={() => handleMakePost(username)}>Post</button>
+            <button className='post-button-small' onClick={() => handleMakePost(username)}>✔</button>
+            <div >
+                <button className='photo-form' onClick={handleTogglePhotoForm}>Upload Photos</button>
 
+                {showPhotoForm && (
+                    <div className="photo-container">
+                        <input
+                            type="file"
+                            onChange={(e) => handlePhotoUpload(e.target.files)}
+                        />
+                    </div>
+                )}
+            </div>
           </div>
         )}
 
@@ -246,6 +278,9 @@ function MainPage() {
         ) : (
           posts.map((post) => (
             <div key={post._id} className="post-container">
+              {post.image && (
+                    <img src={post.image} alt="User Post" className="post-image" />
+              )}
               <p>
                 <strong>{post.userName}</strong> {post.content}
               </p>
@@ -266,7 +301,7 @@ function MainPage() {
               )}
               
               {/* Display Replies */}
-              {post.replies.slice().reverse().map((reply, index) => (
+              {post.replies.map((reply, index) => (
               <div key={index} className="reply-container">
               {reply && (
                 <>

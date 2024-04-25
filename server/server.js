@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const { MongoClient, ObjectId } = require('mongodb');
 const cors = require('cors');
 
@@ -9,9 +10,9 @@ const CONNECTION_STRING = "mongodb+srv://gatorgoalmate:SWE1!@clusterggm.yfnvpjv.
 const DATABASE_NAME = "GGM-db";
 let database;
 
-// Middleware
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json({ limit: '45mb' })); // Increase JSON payload limit
+app.use(bodyParser.urlencoded({ limit: '45mb', extended: true })); // Increase URL-encoded payload limit
 
 // Connect to MongoDB once when the server starts
 MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -42,7 +43,7 @@ app.get('/api/posts', async (req, res) => {
 
 // CREATE a post
 app.post('/api/posts', async (req, res) => {
-  const { userName, content, replies } = req.body;
+  const { userName, content, image, replies } = req.body;
 
   if (!userName || !content) {
     return res.status(400).json({ message: 'Missing required fields (userName or content)' });
@@ -55,6 +56,7 @@ app.post('/api/posts', async (req, res) => {
     const newPost = {
       userName,
       content,
+      image,
       replies: replies || [] // Default to empty array if replies not provided
     };
 
@@ -70,7 +72,7 @@ app.post('/api/posts', async (req, res) => {
 // POST a reply to an existing post
 app.post('/api/posts/:postId/replies', async (req, res) => {
   const { postId } = req.params;
-  const { userName, content } = req.body;
+  const { userName, content, image } = req.body;
 
   if (!userName || !content) {
     return res.status(400).json({ message: 'Missing required fields (userName or content)' });
@@ -82,7 +84,7 @@ app.post('/api/posts/:postId/replies', async (req, res) => {
     // Find the post by ID and update its replies array
     const result = await postsCollection.updateOne(
       { _id: ObjectId(postId) },
-      { $push: { replies: { userName, content } } }
+      { $push: { replies: { userName, content, image } } }
     );
 
     if (result.modifiedCount === 0) {
