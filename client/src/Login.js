@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-//import PasswordMask from 'react-password-mask';
 import MainPage from './MainPage';
 import logo from './GatorGoalMateLogo.png'; 
 import './Login.css'; 
@@ -87,7 +86,6 @@ function Login() {
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <button type="submit" className="login-btn">Login</button>
           <div className="login-additional-options">
-            {/* Additional options (e.g., forgot password, sign up) */}
           </div>
         </form>
       </div>
